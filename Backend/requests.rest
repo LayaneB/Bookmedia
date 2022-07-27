@@ -1,0 +1,28 @@
+GET http://localhost:3003/
+
+### signup
+POST http://localhost:3003/user/signup
+Content-Type: application/json
+
+{
+   "username": "layan", 
+   "email": "layan@email.com", 
+   "password": "asndjb!@76", 
+   "state": "Paraíba", 
+   "country": "Brasil", 
+   "role": "reader", 
+   "literaryGenre": ["ação"], 
+   "publicLocation": true
+}
+
+### login
+POST http://localhost:3003/user/login
+Content-Type: application/json
+
+{
+   "username": "layan", 
+   "password": "asndjb!@76"
+}
+
+###
+DELETE http://localhost:3003/
