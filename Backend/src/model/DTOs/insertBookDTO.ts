@@ -5,6 +5,6 @@ export interface InsertBookDTO {
     getSynopsis: () => string,
     getAuthor: () => string,
     getBookGenre: () => string[],
-    getUserOpinion: () => string,
+    getUserFeedback: () => string,
     getUserRate: () => number
 }

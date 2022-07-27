@@ -6,7 +6,7 @@ export class BookModel {
         private synopsis: string,
         private author: string,
         private bookGenre: string[],
-        private userOpinion: string,
+        private userFeedback: string,
         private userRate: number
     ){}
 
@@ -28,8 +28,8 @@ export class BookModel {
     public getBookGenre(){
         return this.bookGenre
     }
-    public getUserOpinion(){
-        return this.userOpinion
+    public getUserFeedback(){
+        return this.userFeedback
     }
     public getUserRate(){
         return this.userRate

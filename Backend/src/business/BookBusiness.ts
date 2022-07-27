@@ -21,7 +21,7 @@ export class BookBusiness {
 
         try {
 
-            const { title, synopsis, author, bookGenre, userOpinion, userRate, token } = input
+            const { title, synopsis, author, bookGenre, userFeedback, userRate, token } = input
 
             if (!token) {
                 throw new UnauthorizedError("Essa requisição requer autorização, verifique se está passando um token válido.")
@@ -33,12 +33,12 @@ export class BookBusiness {
                 throw new UnauthorizedError("Token Inválido.")
             }
 
-            if (!title || !synopsis || !author || !bookGenre || !userOpinion || !userRate) {
+            if (!title || !synopsis || !author || !bookGenre || !userFeedback || !userRate) {
                 throw new UnprocessableEntityError("Todos os campos são obrigatórios.")
             }
 
-            if (typeof title !== "string" || typeof synopsis !== "string" || typeof author !== "string" || typeof userOpinion !== "string") {
-                throw new UnprocessableEntityError("Os campos 'title', 'synopsis', 'author' e 'userOpinion' devem ser do tipo 'string'.")
+            if (typeof title !== "string" || typeof synopsis !== "string" || typeof author !== "string" || typeof userFeedback !== "string") {
+                throw new UnprocessableEntityError("Os campos 'title', 'synopsis', 'author' e 'userFeedback' devem ser do tipo 'string'.")
             }
             if (typeof userRate !== "number") {
                 throw new UnprocessableEntityError("O campo 'userRate' deve ser do tipo 'number'.")
@@ -54,7 +54,7 @@ export class BookBusiness {
 
             const id = this.idGenerator.generateId()
 
-            const newBook: InsertBookDTO = new BookModel(id, userInformation.id, title, synopsis, author, bookGenre, userOpinion, userRate)
+            const newBook: InsertBookDTO = new BookModel(id, userInformation.id, title, synopsis, author, bookGenre, userFeedback, userRate)
 
             await this.bookDataBase.insertBook(newBook)
 
@@ -65,7 +65,7 @@ export class BookBusiness {
                 synopsis,
                 author,
                 bookGenre,
-                userOpinion,
+                userFeedback,
                 userRate
             }
 

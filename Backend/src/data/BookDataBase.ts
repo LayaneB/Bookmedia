@@ -11,12 +11,12 @@ export class BookDataBase extends BaseDataBase {
             await BaseDataBase.connection(BookDataBase.mainTableName)
                 .insert({
                     id: input.getId(),
-                    userId: input.getUserId(),
+                    user_id: input.getUserId(),
                     title: input.getTitle(),
                     synopsis: input.getSynopsis(),
                     author: input.getAuthor(),
-                    userOpinion: input.getUserOpinion(),
-                    userRate: input.getUserRate()
+                    user_feedback: input.getUserFeedback(),
+                    user_rate: input.getUserRate()
                 })
 
             const bookGenres: string[] = input.getBookGenre()

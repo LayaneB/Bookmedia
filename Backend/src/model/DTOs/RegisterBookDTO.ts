@@ -3,7 +3,7 @@ export interface RegisterBookDTO{
     synopsis: string,
     author: string,
     bookGenre: string[],
-    userOpinion: string,
+    userFeedback: string,
     userRate: number,
     token: string
 }

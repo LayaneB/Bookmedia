@@ -5,6 +5,6 @@ export type RegisterBookOutput = {
     synopsis: string,
     author: string,
     bookGenre: string[],
-    userOpinion: string,
+    userFeedback: string,
     userRate: number
 }

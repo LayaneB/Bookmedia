@@ -52,7 +52,6 @@ export class UserController {
             const token = await this.userBusiness.login(inputBusiness)
 
             res.status(200).send({
-                message: "Usuário Cadastrado com sucesso.",
                 token
             })
 
