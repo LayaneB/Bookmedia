@@ -15,4 +15,6 @@ const bookController = new BookController(
 
 export const bookRouter = express.Router()
 
+bookRouter.get('', bookController.getBooksByUser)
+bookRouter.get('/feed', bookController.getAllBooks)
 bookRouter.post('/add', bookController.registerBook)

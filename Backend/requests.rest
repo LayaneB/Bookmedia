@@ -1,4 +1,12 @@
-GET http://localhost:3003/
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE4OWFlNzE2LWIyMjAtNDA2OS1hNGQ4LWYyZDBhOWU4ZjY3MCIsInJvbGUiOiJyZWFkZXIiLCJpYXQiOjE2NTkwMTE2MDksImV4cCI6MTY1OTQ0MzYwOX0.txTTNf0yY2r5QXjFu6AXEHCNrQlMtZ233QNfXbj6OmM
+
+### GetBooksUser
+GET http://localhost:3003/book
+Authorization: {{token}}
+
+### GetFeed
+GET http://localhost:3003/book/feed
+Authorization: {{token}}
 
 ### signup
 POST http://localhost:3003/user/signup
@@ -20,8 +28,24 @@ POST http://localhost:3003/user/login
 Content-Type: application/json
 
 {
-   "username": "layan", 
+   "username": "lay", 
    "password": "asndjb!@76"
+}
+
+### AddBook
+
+POST http://localhost:3003/book/add
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+   "title": "A Bussúla de Ouro",
+   "synopsis":"Em todos os universos, forças se reúnem para tomar um lado na audaciosa rebelião de lorde Asriel contra a Autoridade. Cada soldado tem um papel a desempenhar e um sacrifício a fazer. Feiticeiras, anjos, espiões, assassinos e mentirosos: ninguém sairá ileso. Lyra e Will têm a tarefa mais perigosa de todas. Com a ajuda de Iorek Byrnison, o urso de armadura, e de dois minúsculos espiões galivespianos, eles devem alcançar um mundo de sombras, onde nenhuma alma viva jamais pisou e de onde não há saída. Enquanto a guerra é travada e o Pó desaparece nos céus, o destino dos vivos e dos mortos recai sobre os ombros dos dois. Will e Lyra precisam fazer uma escolha simples, e a mais difícil de todas, com consequências brutais. A luneta âmbar é o último livro da trilogia Fronteiras do Universo, que teve início com A bússola de ouro e A faca sutil. Uma conclusão emocionante, que leva o leitor a novos e fantásticos universos.",
+   
+   "author":"Philip Pullman",
+   "bookGenre":["Ficção Científica", "Fantasia", "Romance", "Literatura Infantil"],
+   "userFeedback":"Obra maravilhosa, encerrando muito bem a aventura da pequena Lyra e seus amigos. Uma obra que te leva a reflitir sobre vários aspectos da vida e da morte. Super recomendo!!", 
+   "userRate": 10
 }
 
 ###

@@ -1,14 +1,16 @@
 import { BookDataBase } from "../data/BookDataBase"
-import { UserDataBase } from "../data/UserDataBase"
 import { CustomError } from "../errors/CustomError"
 import { UnauthorizedError } from "../errors/UnauthorizedError"
 import { UnprocessableEntityError } from "../errors/UnprocessableEntityError"
 import { BookModel } from "../model/BookModel"
+import { SelectBooksDTO } from "../model/DTOs/SelectBooksDTO"
 import { InsertBookDTO } from "../model/DTOs/insertBookDTO"
 import { RegisterBookDTO } from "../model/DTOs/RegisterBookDTO"
 import { RegisterBookOutput } from "../model/types/RegisterBookOutput"
 import { Authenticator } from "../services/Authenticator"
 import IdGenerator from "../services/IdGenerator"
+import { GetBooksDTO } from "../model/DTOs/GetBooksDTO"
+import { NotFoundError } from "../errors/NotFoundError"
 
 export class BookBusiness {
     constructor(
@@ -69,10 +71,67 @@ export class BookBusiness {
                 userRate
             }
 
+
         } catch (error: any) {
 
             throw new CustomError(error.statusCode || 500, error.sqlMessage || error.message)
 
+        }
+
+    }
+
+    public getBooksByUser = async (input: GetBooksDTO): Promise<SelectBooksDTO[]> => {
+        try {
+            const { token } = input
+
+            if (!token) {
+                throw new UnauthorizedError("Essa requisição requer autorização, verifique se está passando um token válido.")
+            }
+
+            const userInformation = this.authenticator.getTokenData(token)
+
+            if (!userInformation) {
+                throw new UnauthorizedError("Token Inválido.")
+            }
+
+            const books: SelectBooksDTO[] = await this.bookDataBase.selecttBookByUser(userInformation.id)
+
+            if (!books || books.length === 0) {
+                throw new NotFoundError("Nenhum registro encontrado para esse usuário")
+            }
+
+            return books
+        } catch (error: any) {
+            throw new CustomError(error.statusCode || 500, error.sqlMessage || error.message)
+        }
+
+    }
+
+    public getAllBooks = async (input: GetBooksDTO): Promise<SelectBooksDTO[]> => {
+
+        try {
+            const { token } = input
+
+            if (!token) {
+                throw new UnauthorizedError("Essa requisição requer autorização, verifique se está passando um token válido.")
+            }
+
+            const userInformation = this.authenticator.getTokenData(token)
+
+            if (!userInformation) {
+                throw new UnauthorizedError("Token Inválido.")
+            }
+
+            const books: SelectBooksDTO[] = await this.bookDataBase.selecttAllBooks()
+
+            if (!books || books.length === 0) {
+                throw new NotFoundError("Seja o primeiro a adicionar uma resenha em nossa rede.")
+            }
+
+            return books
+
+        } catch (error: any) {
+            throw new CustomError(error.statusCode || 500, error.sqlMessage || error.message)
         }
 
     }
