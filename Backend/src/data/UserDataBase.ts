@@ -1,7 +1,7 @@
 import { InternalError } from "../errors/InternalError";
 import { InsertUserDTO } from "../model/DTOs/InsertUserDTO";
 import { CheckRegisteredUserOutput } from "../model/types/CheckRegisteredUserOutput";
-import { UseByIdOutput } from "../model/types/UserByIdOutput";
+import { UserByIdOutput } from "../model/types/UserByIdOutput";
 import { BaseDataBase } from "./BaseDataBase";
 
 
@@ -64,9 +64,9 @@ export class UserDataBase extends BaseDataBase {
         }
     }
 
-    public selectUserById = async (id: string):Promise<UseByIdOutput> => {
+    public selectUserById = async (id: string):Promise<UserByIdOutput> => {
         try {
-            const user:UseByIdOutput[] = await BaseDataBase.connection(UserDataBase.mainTableName)
+            const user:UserByIdOutput[] = await BaseDataBase.connection(UserDataBase.mainTableName)
             .select("id", "username", "email", "password", "state", "country", "role", "literary_genre as literaryGenre", "public_location as publicaLocation")
             .where({id})
 

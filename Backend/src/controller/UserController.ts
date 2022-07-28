@@ -9,7 +9,7 @@ export class UserController {
         private userBusiness: UserBusiness
     ) { }
 
-    public signup = async (req: Request, res: Response) => {
+    public signup = async (req: Request, res: Response): Promise<void> => {
 
         try {
 
@@ -38,7 +38,7 @@ export class UserController {
         }
     }
 
-    public login = async (req: Request, res: Response) => {
+    public login = async (req: Request, res: Response): Promise<void> => {
 
         try {
 
