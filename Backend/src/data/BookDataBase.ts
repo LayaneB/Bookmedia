@@ -85,7 +85,7 @@ export class BookDataBase extends BaseDataBase {
             let userBooks: SelectBooksDTO[] = []
             const books: SelectBooksDTO[] = await BaseDataBase.connection(BookDataBase.mainTableName)
                 .join('teppa_users', 'teppa_users.id', 'teppa_books.user_id')
-                .select("teppa_books.id as id", "teppa_books.user_id as userId", "title", "synopsis", "author", "user_feedback as userFeedback", "user_rate as userRate", "created_at as createdAt")
+                .select("teppa_books.id as id", "teppa_books.user_id as userId", "username", "title", "synopsis", "author", "user_feedback as userFeedback", "user_rate as userRate", "created_at as createdAt")
                 .orderBy('teppa_books.created_at')
 
             for (let book of books) {

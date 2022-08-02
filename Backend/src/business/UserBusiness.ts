@@ -89,24 +89,25 @@ export class UserBusiness {
     public  login = async (user: loginDTO):Promise<string> => {
 
         try {
-            const { username, password } = user
+            const { email, password } = user
 
-            if(!username || !password){
+            if(!email || !password){
                 throw new UnprocessableEntityError("Todos os campos são obrigatórios.")
             }
 
-            const checkUser:CheckRegisteredUserOutput[] = await this.userDataBase.selectUserByUsername(username)
-
+            const checkUser:CheckRegisteredUserOutput[] = await this.userDataBase.selectUserByEmail(email)
+            
             if (checkUser.length === 0) {
                 throw new ConflictError("Credenciais inválidas. Usuário não cadastrado.")
             }
-
+            
             const passwordIsCorrect: boolean = await this.hashManage.compare(password, checkUser[0].password)
-
+            
             if (!passwordIsCorrect) {
                 throw new ConflictError("Credenciais inválidas.")
             }
-
+            
+            
             const token = this.authenticator.generateToken({ id: checkUser[0].id, role: checkUser[0].role })
 
             return token

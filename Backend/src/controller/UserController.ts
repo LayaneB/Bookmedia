@@ -42,15 +42,15 @@ export class UserController {
 
         try {
 
-            const { username, password } = req.body
+            const { email, password } = req.body
 
             const inputBusiness: loginDTO = {
-                username,
+                email,
                 password
             }
 
             const token = await this.userBusiness.login(inputBusiness)
-
+            
             res.status(200).send({
                 token
             })
