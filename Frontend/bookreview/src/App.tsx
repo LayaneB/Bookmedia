@@ -1,8 +1,13 @@
+import { GlobalStyle } from "./theme/GlobalStyle"
+import GlobalState from './global/GlobalState'
+import Router from "./routes/Router";
+
 function App() {
   return (
-    <div>
-    oi
-    </div>
+    <GlobalState>
+      <GlobalStyle />
+      <Router />
+    </GlobalState>
   );
 }
 
