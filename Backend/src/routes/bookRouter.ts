@@ -17,4 +17,6 @@ export const bookRouter = express.Router()
 
 bookRouter.get('', bookController.getBooksByUser)
 bookRouter.get('/feed', bookController.getAllBooks)
-bookRouter.post('/add', bookController.registerBook)
+bookRouter.post('', bookController.postBook)
+bookRouter.put('/:id', bookController.putBook)
+bookRouter.delete('/:id', bookController.deleteBook)

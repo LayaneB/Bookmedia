@@ -1,6 +1,7 @@
 import { InternalError } from "../errors/InternalError"
 import { InsertBookDTO } from "../model/DTOs/insertBookDTO"
 import { SelectBooksDTO } from "../model/DTOs/SelectBooksDTO"
+import { UpdateBookDto } from "../model/DTOs/UpdateBookDTO"
 import { BaseDataBase } from "./BaseDataBase"
 
 export class BookDataBase extends BaseDataBase {
@@ -42,9 +43,8 @@ export class BookDataBase extends BaseDataBase {
         try {
 
             const book: SelectBooksDTO[] = await BaseDataBase.connection(BookDataBase.mainTableName)
-                .select()
+                .select("id", "user_id as userId", "title", "synopsis", "author", "user_feedback as userFeedback", "user_rate as userRate", "created_at as createdAt")
                 .where({ id })
-
             return book[0]
 
         } catch (error: any) {
@@ -68,8 +68,8 @@ export class BookDataBase extends BaseDataBase {
                     .select("book_genre as bookGenre")
                     .where("teppa_books.id", book.id)
                 const bookGenres = genres.map(genre => genre.bookGenre)
-                const completInformation:SelectBooksDTO = {...book, bookGenre: bookGenres}
-                userBooks = [... userBooks, completInformation]
+                const completInformation: SelectBooksDTO = { ...book, bookGenre: bookGenres }
+                userBooks = [...userBooks, completInformation]
             }
             return userBooks
 
@@ -94,8 +94,8 @@ export class BookDataBase extends BaseDataBase {
                     .select("book_genre as bookGenre")
                     .where("teppa_books.id", book.id)
                 const bookGenres = genres.map(genre => genre.bookGenre)
-                const completInformation:SelectBooksDTO = {...book, bookGenre: bookGenres}
-                userBooks = [... userBooks, completInformation]
+                const completInformation: SelectBooksDTO = { ...book, bookGenre: bookGenres }
+                userBooks = [...userBooks, completInformation]
             }
             return userBooks
 
@@ -106,4 +106,47 @@ export class BookDataBase extends BaseDataBase {
         }
     }
 
+    public updateBook = async (input: UpdateBookDto): Promise<void> => {
+
+        try {
+
+            await BaseDataBase.connection(BookDataBase.mainTableName)
+                .where({ id: input.id })
+                .update(input.set)
+
+            await BaseDataBase.connection(BookDataBase.auxiliarTableName)
+                .delete()
+                .where({ book_id: input.id })
+
+            if (input.setBookGenre) {
+                for (const bookGenre of input.setBookGenre) {
+                    await BaseDataBase.connection(BookDataBase.auxiliarTableName)
+                        .insert({
+                            user_id: input.userId,
+                            book_id: input.id,
+                            book_genre: bookGenre.book_genre
+                        })
+                }
+            }
+
+        } catch (error: any) {
+
+            throw new InternalError(error.sqlMessage || error.message)
+
+        }
+    }
+
+    public deleteBookById = async (id: string): Promise<void> => {
+        try {
+
+            await BaseDataBase.connection(BookDataBase.mainTableName)
+                .delete()
+                .where({ id })
+
+        } catch (error: any) {
+
+            throw new InternalError(error.sqlMessage || error.message)
+
+        }
+    }
 }

@@ -1,8 +1,5 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE4OWFlNzE2LWIyMjAtNDA2OS1hNGQ4LWYyZDBhOWU4ZjY3MCIsInJvbGUiOiJyZWFkZXIiLCJpYXQiOjE2NTkwMTE2MDksImV4cCI6MTY1OTQ0MzYwOX0.txTTNf0yY2r5QXjFu6AXEHCNrQlMtZ233QNfXbj6OmM
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5M2I5MmJiLWUwOWItNDE4Zi1hM2Y3LTA0NDE4MWNhNzEwYSIsInJvbGUiOiJyZWFkZXIiLCJpYXQiOjE2NTk2MjU1NTcsImV4cCI6MTY2MDA1NzU1N30.YdjIOzx-TZNSAxM6OkS6ecMw-xWqrJjq3OOX0tD2pos
 
-### GetBooksUser
-GET http://localhost:3003/book
-Authorization: {{token}}
 
 ### GetFeed
 GET http://localhost:3003/book/feed
@@ -28,13 +25,17 @@ POST http://localhost:3003/user/login
 Content-Type: application/json
 
 {
-   "email": "lay", 
+   "email": "layan@email.com", 
    "password": "asndjb!@76"
 }
 
-### AddBook
 
-POST http://localhost:3003/book/add
+### GetBooksUser
+GET http://localhost:3003/book
+Authorization: {{token}}
+
+### AddBook
+POST http://localhost:3003/book
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -48,5 +49,15 @@ Authorization: {{token}}
    "userRate": 10
 }
 
+### Upadete Book
+PUT http://localhost:3003/book/4216fff9-a7ba-45c4-a572-f5a0f9b475ea
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+   "userRate": 5
+}
+
 ###
-DELETE http://localhost:3003/
+DELETE http://localhost:3003/book/4216fff9-a7ba-45c4-a572-f5a0f9b475ea
+Authorization: {{token}}
