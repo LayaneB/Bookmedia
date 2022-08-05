@@ -10,12 +10,29 @@ import SecondStepSignup from '../../components/Signup/SecondStepSinup'
 import { useForm } from '../../hooks/useForm'
 import Logo from '../../assets/logo.jpg'
 import ThirdStepSignup from '../../components/Signup/ThirdStepSignup'
+import { SignupDTO } from '../../interfaces/signup/SignupDTO'
+import { GlobalContext } from '../../global/GlobalContext'
+import { signup } from '../../services/requests'
+import { useNavigate } from 'react-router'
 
 
 export default function SignupPage() {
 
+    const { states, setters } = React.useContext(GlobalContext)
+    const { token, loading } = states
+    const { setToken, setLoading } = setters
+
+    const navigate = useNavigate()
+
     const [activeStep, setActiveStep] = React.useState(0)
     const [literaryArray, setLiteraryArray] = React.useState<string[]>([])
+
+    React.useEffect(() => {
+        const tokenNow = window.sessionStorage.getItem('token')
+        const tokenN = tokenNow && JSON.parse(tokenNow)
+        if(!tokenN?.token && token.token){window.sessionStorage.setItem('token', JSON.stringify(token))}
+        (tokenN?.token || token.token) && navigate('/feed')
+      }, [token])
 
     const [fisrtStepForm, onChangeFisrtStepForm] = useForm({
         username: '',
@@ -23,17 +40,42 @@ export default function SignupPage() {
         password: ''
     })
 
-    const [secondStepForm, onChangeSecondStepForm, cleanFields] = useForm({
+    const [secondStepForm, onChangeSecondStepForm] = useForm({
         state: '',
         country: '',
+        firstName: '',
+        lastName: '',
+        birthDate: new Date(),
+        phoneNumber: '',
         role: "reader",
-        publicLocation: false,
+        publicInformations: false,
         literaryGenre: ''
     })
 
-    const handleNext = (event: any) => {
+    const handleNext = async (event: any) => {
         event.preventDefault();
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        if (activeStep === steps.length - 1) {
+            const body: SignupDTO = {
+                username: fisrtStepForm.username,
+                email: fisrtStepForm.email,
+                password: fisrtStepForm.password,
+                firstName: secondStepForm.firstName,
+                lastName: secondStepForm.lastName,
+                phoneNumber: secondStepForm.phoneNumber,
+                birthDate: secondStepForm.birthDate,
+                country: secondStepForm.country,
+                state: secondStepForm.state,
+                role: secondStepForm.role,
+                literaryGenre: literaryArray,
+                publicInformations: secondStepForm.publicInformations
+            }
+
+            await signup('user/signup', body, setToken, setLoading)
+            setActiveStep(0)
+            setLiteraryArray([])
+        } else {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1)
+        }
     }
 
     const handleBack = () => {
@@ -42,7 +84,6 @@ export default function SignupPage() {
 
     const addLiteraryGenre = () => {
         setLiteraryArray(prevLiteraryGenre => [...prevLiteraryGenre, secondStepForm.literaryGenre])
-        cleanFields('literaryGenre')
     }
 
     const removeLiteraryGenre = (chipToDelete: string): void | undefined => {
@@ -90,6 +131,7 @@ export default function SignupPage() {
                     activeStep={activeStep}
                     steps={steps}
                     literaryArray={literaryArray}
+                    loading={loading}
                 />
         }
     }

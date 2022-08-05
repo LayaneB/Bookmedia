@@ -5,10 +5,10 @@ import Typography from '@mui/material/Typography'
 import { useForm } from '../../hooks/useForm'
 import Logo from '../../assets/logo.jpg'
 import { CircularProgress, TextField } from '@mui/material'
-import { postRequest } from '../../services/requests'
 import { BoxContent, ButtonLogin } from './style'
 import { useNavigate } from 'react-router'
 import { GlobalContext } from '../../global/GlobalContext'
+import { logIn } from '../../services/requests'
 
 
 export default function LoginPage() {
@@ -26,17 +26,15 @@ export default function LoginPage() {
 
 
   React.useEffect(() => {
-    token && window.sessionStorage.setItem('token', token)
-    token && navigate('/signup')
+    const tokenNow = window.sessionStorage.getItem('token')
+    const tokenN = tokenNow && JSON.parse(tokenNow)
+    if(!tokenN?.token && token.token){window.sessionStorage.setItem('token', JSON.stringify(token))}
+    (tokenN?.token || token.token) && navigate('/feed')
   }, [token])
-
-  // React.useEffect(() => {
-  //   // token && navigate('/feed')
-  // }, [loading])
 
   const login = (event: any) => {
     event.preventDefault()
-    postRequest('user/login', form, setToken, setLoading)
+    logIn('user/login', form, setToken, setLoading)
   }
 
   return (
@@ -44,7 +42,7 @@ export default function LoginPage() {
 
       <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '40px', gap: '20px' }} >
         <Box sx={{ height: '20%' }} component={"img"} src={Logo} alt={'livro aberto'} />
-        <Box>
+        <Box sx={{display:'flex',flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
           <Typography variant='h3'>BookMedia</Typography>
           <Typography>Um universo de possibilidades bem aqui</Typography>
         </Box>
