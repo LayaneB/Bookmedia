@@ -25,12 +25,12 @@ const SecondStepSignup = (props: SecondStepSignupProps) => {
                     variant="outlined"
                     fullWidth
                     required
-                    id="name"
+                    id="firstName"
                     label="Nome"
-                    name="name"
-                    autoComplete="name"
+                    name="firstName"
+                    autoComplete="firstName"
                     autoFocus
-                    value={form.name}
+                    value={form.firstName}
                     onChange={onChange}
                 />
 
@@ -78,7 +78,6 @@ const SecondStepSignup = (props: SecondStepSignupProps) => {
 
             <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
                 <TextField
-                    // variant="outlined"
                     required
                     fullWidth
                     type="date"
@@ -111,9 +110,9 @@ const SecondStepSignup = (props: SecondStepSignupProps) => {
             <FormControlLabel
                 control={
                     <Checkbox
-                        checked={form.publicLocation}
+                        checked={form.publicInformations}
                         onChange={onChange}
-                        name="publicLocation"
+                        name="publicInformations"
                     />
                 }
                 label="Informações pessoais públicas"
@@ -127,11 +126,11 @@ const SecondStepSignup = (props: SecondStepSignupProps) => {
                     name="role"
                     value={form.role}
                     onChange={onChange}
-                    defaultValue={"reader"}
+                    defaultValue={"leitor"}
                 >
-                    <FormControlLabel value="reader" control={<Radio />} label="Leitor" />
-                    <FormControlLabel value="writer" control={<Radio />} label="Escritor" />
-                    <FormControlLabel value="both" control={<Radio />} label="Ambos" />  {/* MUDAR NO BANCOOOOOOOOOOO!!!!!!!!!!!! */}
+                    <FormControlLabel value="leitor" control={<Radio />} label="Leitor" />
+                    <FormControlLabel value="escritor" control={<Radio />} label="Escritor" />
+                    <FormControlLabel value="leitor e escritor" control={<Radio />} label="Ambos" /> 
                 </RadioGroup>
             </FormControl>
 

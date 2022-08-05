@@ -1,11 +1,11 @@
-import { Button, Typography } from "@mui/material"
+import { Button, CircularProgress, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import moment from "moment"
 import { ThirdStepSignupProps } from "../../interfaces/signup/ThirdStepSignupProps"
 
 
 const ThirdStepSignup = (props: ThirdStepSignupProps) => {
-    const { fisrtStepForm, secondStepForm, literaryArray, activeStep, steps, handleButtonClick } = props
+    const { fisrtStepForm, secondStepForm, literaryArray, activeStep, steps, handleButtonClick, loading } = props
 
     const formatDate =  moment(secondStepForm.birthDate).format('DD/MM/YYYY')
     const styleBox = { display: 'flex', justifyContent: 'space-between' }
@@ -40,7 +40,7 @@ const ThirdStepSignup = (props: ThirdStepSignupProps) => {
                 <Button
                     type='submit'
                 >
-                    {activeStep === steps.length - 1 ? 'Finalizar' : 'Próximo'}
+                    {loading ? <CircularProgress color="inherit" size={'25px'} /> : (activeStep === steps.length - 1) ? 'Finalizar' : 'Próximo'}
                 </Button>
             </Box>
         </>
