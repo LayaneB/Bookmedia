@@ -12,14 +12,11 @@ export const useForm = (initialState: any) => {
             setForm({...form, [name]:value})
         }
     }
-
-    const cleanFields = (field:string) => {
-        setForm({...form, [field]:''})
-    }
+    
     const cleanAllFields = () => {
         setForm(initialState)
     }
 
-    return [form, onChange, cleanFields, cleanAllFields]
+    return [form, onChange, cleanAllFields]
 
 }
