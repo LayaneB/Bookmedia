@@ -86,7 +86,7 @@ export class BookBusiness {
 
     public getBooksByUser = async (input: GetBooksDTO): Promise<SelectBooksDTO[]> => {
         try {
-            const { token } = input
+            const { token, id } = input
 
             if (!token) {
                 throw new UnauthorizedError("Essa requisição requer autorização, verifique se está passando um token válido.")
@@ -98,11 +98,7 @@ export class BookBusiness {
                 throw new UnauthorizedError("Token Inválido.")
             }
 
-            const books: SelectBooksDTO[] = await this.bookDataBase.selecttBookByUser(userInformation.id)
-
-            if (!books || books.length === 0) {
-                throw new NotFoundError("Nenhum registro encontrado para esse usuário")
-            }
+            const books: SelectBooksDTO[] = await this.bookDataBase.selecttBookByUser(id as string)
 
             return books
         } catch (error: any) {
@@ -143,6 +139,7 @@ export class BookBusiness {
     public putBook = async (input: PutBookDTO): Promise<void> => {
 
         try {
+            console.log(input)
 
             const { title, synopsis, author, bookGenre, userFeedback, userRate, token, id } = input
 
@@ -155,6 +152,7 @@ export class BookBusiness {
             if (!userInformation) {
                 throw new UnauthorizedError("Token Inválido.")
             }
+
             const book: SelectBooksDTO = await this.bookDataBase.selecttBookById(id)
 
             if (!book) {
@@ -177,8 +175,8 @@ export class BookBusiness {
                 throw new UnprocessableEntityError("O campo 'userRate' deve ser do tipo 'number'.")
             }
 
-            if (userRate && userRate < 0 || userRate > 10) {
-                throw new UnprocessableEntityError("O campo 'userRate' deve ser um valor entre 0 e 10.")
+            if (userRate && userRate < 0 || userRate > 5) {
+                throw new UnprocessableEntityError("O campo 'userRate' deve ser um valor entre 0 e 5.")
             }
 
             if (bookGenre && bookGenre.length === 0) {

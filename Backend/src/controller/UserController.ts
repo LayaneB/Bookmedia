@@ -1,7 +1,9 @@
 import { Request, Response } from 'express'
 import { UserBusiness } from '../business/UserBusiness'
+import { GetUserDTO } from '../model/DTOs/GetUserDTO'
 import { loginDTO } from '../model/DTOs/LoginDTO'
 import { SignupDTO } from '../model/DTOs/SignupDTO'
+import { UserByIdOutput } from '../model/types/UserByIdOutput'
 
 
 export class UserController {
@@ -13,17 +15,21 @@ export class UserController {
 
         try {
 
-            const { username, email, password, state, country, role, literaryGenre, publicLocation } = req.body
+            const { username, email, password, firstName, lastName, birthDate, phoneNumber, state, country, role, literaryGenre, publicInformations } = req.body
 
             const inputBusiness: SignupDTO = {
                 username,
                 email,
                 password,
+                firstName, 
+                lastName, 
+                birthDate, 
+                phoneNumber,
                 state,
                 country,
                 role,
                 literaryGenre,
-                publicLocation
+                publicInformations
             }
 
             const token = await this.userBusiness.registerUser(inputBusiness)
@@ -53,6 +59,28 @@ export class UserController {
             
             res.status(200).send({
                 token
+            })
+
+        } catch (error: any) {
+            res.status(error.statusCode || 500).send({ error: error.sqlMessage || error.message })
+        }
+    }
+
+    public getUser = async (req: Request, res: Response): Promise<void> => {
+
+        try {
+            const token = req.headers.authorization
+            const id = req.params.id
+
+            const inputBusiness: GetUserDTO = {
+                token: token as string,
+                id
+            }
+
+            const userData: UserByIdOutput = await this.userBusiness.getUser(inputBusiness)
+            
+            res.status(200).send({
+                userData
             })
 
         } catch (error: any) {

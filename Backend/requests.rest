@@ -1,4 +1,4 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc5M2I5MmJiLWUwOWItNDE4Zi1hM2Y3LTA0NDE4MWNhNzEwYSIsInJvbGUiOiJyZWFkZXIiLCJpYXQiOjE2NTk2MjU1NTcsImV4cCI6MTY2MDA1NzU1N30.YdjIOzx-TZNSAxM6OkS6ecMw-xWqrJjq3OOX0tD2pos
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjcxMGE3ODZmLTRiNjYtNDE4ZS04OGE3LTViMWU3ODc2YzAyYiIsInJvbGUiOiJlc2NyaXRvciIsImlhdCI6MTY1OTY2NDY4NSwiZXhwIjoxNjYwMDk2Njg1fQ.ZOYTU5l1nZFd8mC0pRZGzxwJswSSdCs4rMhYxQ6uHLM
 
 
 ### GetFeed
@@ -10,14 +10,18 @@ POST http://localhost:3003/user/signup
 Content-Type: application/json
 
 {
-   "username": "layan", 
-   "email": "layan@email.com", 
-   "password": "asndjb!@76", 
-   "state": "Paraíba", 
-   "country": "Brasil", 
-   "role": "reader", 
-   "literaryGenre": ["ação"], 
-   "publicLocation": true
+  "username": "Mah",
+  "email": "mah@email.com",
+  "password": "12345678",
+  "firstName": "Maria",
+  "lastName": "Cardoso",
+  "birthDate": "1967-03-04",
+  "phoneNumber": "11983547249",
+  "state": "São Paulo",
+  "country": "Brasil",
+  "role": "escritor",
+  "literaryGenre": [ "Terror", "Suspense", "Adulto" ],
+  "publicInformations": true
 }
 
 ### login
@@ -25,8 +29,8 @@ POST http://localhost:3003/user/login
 Content-Type: application/json
 
 {
-   "email": "layan@email.com", 
-   "password": "asndjb!@76"
+   "email": "layane@email.com", 
+   "password": "12345678"
 }
 
 
@@ -40,13 +44,13 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-   "title": "A Bussúla de Ouro",
+   "title": "A Luneta Âmbar",
    "synopsis":"Em todos os universos, forças se reúnem para tomar um lado na audaciosa rebelião de lorde Asriel contra a Autoridade. Cada soldado tem um papel a desempenhar e um sacrifício a fazer. Feiticeiras, anjos, espiões, assassinos e mentirosos: ninguém sairá ileso. Lyra e Will têm a tarefa mais perigosa de todas. Com a ajuda de Iorek Byrnison, o urso de armadura, e de dois minúsculos espiões galivespianos, eles devem alcançar um mundo de sombras, onde nenhuma alma viva jamais pisou e de onde não há saída. Enquanto a guerra é travada e o Pó desaparece nos céus, o destino dos vivos e dos mortos recai sobre os ombros dos dois. Will e Lyra precisam fazer uma escolha simples, e a mais difícil de todas, com consequências brutais. A luneta âmbar é o último livro da trilogia Fronteiras do Universo, que teve início com A bússola de ouro e A faca sutil. Uma conclusão emocionante, que leva o leitor a novos e fantásticos universos.",
    
    "author":"Philip Pullman",
    "bookGenre":["Ficção Científica", "Fantasia", "Romance", "Literatura Infantil"],
    "userFeedback":"Obra maravilhosa, encerrando muito bem a aventura da pequena Lyra e seus amigos. Uma obra que te leva a reflitir sobre vários aspectos da vida e da morte. Super recomendo!!", 
-   "userRate": 10
+   "userRate": 4.5
 }
 
 ### Upadete Book
@@ -59,5 +63,10 @@ Authorization: {{token}}
 }
 
 ###
-DELETE http://localhost:3003/book/4216fff9-a7ba-45c4-a572-f5a0f9b475ea
+DELETE http://localhost:3003/book/663151cc-ee26-49bb-a2ad-30e93341c635
+Authorization: {{token}}
+
+
+### get user data
+GET http://localhost:3003/user/eb99d012-48bc-4342-bbd1-d50e6686e1ad
 Authorization: {{token}}

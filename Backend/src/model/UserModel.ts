@@ -5,6 +5,10 @@ export class UserModel {
         private id: string,
         private username: string,
         private email: string,
+        private firstName: string,
+        private lastName: string,
+        private birthDate: string,
+        private phoneNumber: string,
         private password:string,
         private state: string,
         private country: string,
@@ -12,7 +16,7 @@ export class UserModel {
         private literaryGenre: string[],
         private publicLocation: boolean
     ){}
-
+   
     public getId(){
         return this.id
     }
@@ -25,6 +29,18 @@ export class UserModel {
 
     public getPassword(){
         return this.password
+    }
+    public getFirstName(){
+        return this.firstName
+    }
+    public getLastName(){
+        return this.lastName
+    }
+    public getBirthDate(){
+        return this.birthDate
+    }
+    public getPhoneNumber(){
+        return this.phoneNumber
     }
     public getState(){
         return this.state

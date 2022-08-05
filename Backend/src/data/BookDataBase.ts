@@ -59,7 +59,7 @@ export class BookDataBase extends BaseDataBase {
             let userBooks: SelectBooksDTO[] = []
             const books: SelectBooksDTO[] = await BaseDataBase.connection(BookDataBase.mainTableName)
                 .join('teppa_users', 'teppa_users.id', 'teppa_books.user_id')
-                .select("teppa_books.id as id", "teppa_books.user_id as userId", "title", "synopsis", "author", "user_feedback as userFeedback", "user_rate as userRate", "created_at as createdAt")
+                .select("teppa_books.id as id", "teppa_books.user_id as userId", "title", "synopsis", "author", "user_feedback as userFeedback", "user_rate as userRate", "created_at as createdAt", "username")
                 .where("teppa_books.user_id", userId)
 
             for (let book of books) {
@@ -138,7 +138,10 @@ export class BookDataBase extends BaseDataBase {
 
     public deleteBookById = async (id: string): Promise<void> => {
         try {
-
+            await BaseDataBase.connection(BookDataBase.auxiliarTableName)
+            .delete()
+            .where({book_id: id})
+            
             await BaseDataBase.connection(BookDataBase.mainTableName)
                 .delete()
                 .where({ id })

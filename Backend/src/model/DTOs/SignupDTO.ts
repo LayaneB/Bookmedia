@@ -4,9 +4,13 @@ export interface SignupDTO {
     username: string,
     email: string,
     password: string,
+    firstName: string, 
+    lastName: string, 
+    birthDate: string, 
+    phoneNumber: string,
     state: string,
     country: string,
     role: UserRole,
     literaryGenre: string[],
-    publicLocation: boolean
+    publicInformations: boolean
 }

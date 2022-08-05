@@ -46,8 +46,9 @@ export class BookController {
         try {
 
             const token = req.headers.authorization as string
+            const id = req.params.id
 
-            const inputBusiness: GetBooksDTO = { token }
+            const inputBusiness: GetBooksDTO = { token, id }
 
             const books: SelectBooksDTO[] = await this.bookBusines.getBooksByUser(inputBusiness)
 

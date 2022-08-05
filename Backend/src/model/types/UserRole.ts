@@ -1,4 +1,5 @@
 export enum UserRole {
-    READER = "reader",
-    WRITER = "writer"
+    READER = "leitor",
+    WRITER = "escritor",
+    BOTH = "leitor e escritor"
 }

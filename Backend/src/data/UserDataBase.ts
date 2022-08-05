@@ -16,11 +16,15 @@ export class UserDataBase extends BaseDataBase {
                     id: input.getId(),
                     username: input.getUserName(),
                     email: input.getEmail(),
+                    first_name: input.getFirstName(),
+                    last_name: input.getLastName(),
+                    birth_date: input.getBirthDate(),
+                    phone_number:input.getPhoneNumber(),
                     password: input.getPassword(),
                     state: input.getEmail(),
                     country: input.getCountry(),
                     role: input.getRole(),
-                    public_location: input.getPublicLocation()
+                    public_informations: input.getPublicLocation()
                 })
 
             const literariesGenre: string[] = input.getLiteraryGenre()
@@ -66,17 +70,22 @@ export class UserDataBase extends BaseDataBase {
 
     public selectUserById = async (id: string):Promise<UserByIdOutput> => {
         try {
-            const user:UserByIdOutput[] = await BaseDataBase.connection(UserDataBase.mainTableName)
-            .select("id", "username", "email", "password", "state", "country", "role", "literary_genre as literaryGenre", "public_location as publicaLocation")
+            const user = await BaseDataBase.connection(UserDataBase.mainTableName)
+            .select("id", "username", "email", "password", "first_name as firstName", "last_name as lastName", "state", "country", "phone_number as phoneNumber", "birth_date as birthDate", "role", "public_informations as publicInformations")
             .where({id})
-
-            return user[0]
+         
+                const genres = await BaseDataBase.connection(UserDataBase.mainTableName)
+                    .join('teppa_user_literary_genre', 'teppa_user_literary_genre.user_id', 'teppa_users.id')
+                    .select("literary_genre as literaryGenre")
+                    .where("teppa_users.id", id)
+                const literaryGenres = genres.map(genre => genre.literaryGenre)
+                const userInfo:UserByIdOutput = {...user[0], literaryGenres}
+            
+            return userInfo
 
         } catch (error: any) {
             throw new InternalError(error.sqlMessage || error.message)
         }
     }
-
-
 
 }

@@ -1,11 +1,15 @@
 import { UserDataBase } from "../data/UserDataBase"
 import { ConflictError } from "../errors/ConflictError"
 import { CustomError } from "../errors/CustomError"
+import { UnauthorizedError } from "../errors/UnauthorizedError"
 import { UnprocessableEntityError } from "../errors/UnprocessableEntityError"
+import { GetUserDTO } from "../model/DTOs/GetUserDTO"
 import { InsertUserDTO } from "../model/DTOs/InsertUserDTO"
+import { LogedDTO } from "../model/DTOs/LogedDTO"
 import { loginDTO } from "../model/DTOs/LoginDTO"
 import { SignupDTO } from "../model/DTOs/SignupDTO"
 import { CheckRegisteredUserOutput } from "../model/types/CheckRegisteredUserOutput"
+import { UserByIdOutput } from "../model/types/UserByIdOutput"
 import { UserRole } from "../model/types/UserRole"
 import { UserModel } from "../model/UserModel"
 import { Authenticator } from "../services/Authenticator"
@@ -20,18 +24,18 @@ export class UserBusiness {
         private authenticator: Authenticator
     ) { }
 
-    public registerUser = async (input: SignupDTO): Promise<string> => {
+    public registerUser = async (input: SignupDTO): Promise<LogedDTO> => {
 
         try {
 
-            const { username, email, password, state, country, role, literaryGenre, publicLocation } = input
-
-            if (!username || !email || !password || !state || !country || !role || !literaryGenre || !publicLocation) {
+            const { username, email, password, firstName, lastName, birthDate, phoneNumber, state, country, role, literaryGenre, publicInformations } = input
+            console.log(input)
+            if (!username || !email || !password || !state || !firstName || !lastName || !birthDate || !phoneNumber || !country || !role || !literaryGenre || publicInformations === undefined) {
                 throw new UnprocessableEntityError("Todos os campos são obrigatórios.")
             }
 
-            if(typeof username !== "string" || typeof email !== "string" || typeof state !== "string" || typeof country !== "string"){
-                throw new UnprocessableEntityError("Os campos 'username', 'email', 'state' e 'country' devem ser do tipo 'string'.")
+            if(typeof username !== "string" || typeof email !== "string" || typeof state !== "string" || typeof country !== "string" || typeof firstName !== "string" || typeof lastName !== "string" || typeof birthDate !== "string" || typeof phoneNumber !== "string"){
+                throw new UnprocessableEntityError("Os campos 'username', 'email', 'firstName', 'lastName', 'birthDate', 'phoneNumber', 'state' e 'country' devem ser do tipo 'string'.")
             }
 
             const checkEmail: CheckRegisteredUserOutput[] = await this.userDataBase.selectUserByEmail(email)
@@ -46,16 +50,16 @@ export class UserBusiness {
                 throw new ConflictError("Username já cadastrado.")
             }
 
-            if(typeof publicLocation !== "boolean"){
-                throw new UnprocessableEntityError("O campo 'publicLocation' deve ser do tipo boolean.")
+            if(typeof publicInformations !== "boolean"){
+                throw new UnprocessableEntityError("O campo 'publicInformations' deve ser do tipo boolean.")
             }
 
             if(literaryGenre.length === 0){
                 throw new UnprocessableEntityError("Inserir pelo menos um gênero literário.")
             }
             
-            if(role !== UserRole.READER && role !== UserRole.WRITER){
-                throw new UnprocessableEntityError("O usuário só pode possuir umas das duas regras: 'reader' ou 'writer'.")
+            if(role !== UserRole.READER && role !== UserRole.WRITER && role !== UserRole.BOTH){
+                throw new UnprocessableEntityError("O usuário só pode possuir umas das três regras: 'leitor', 'escritor' ou 'leitor e escritor'.")
             }
             const regexp = /\S+@\S+\.\S+/
 
@@ -71,13 +75,13 @@ export class UserBusiness {
 
             const hash = await this.hashManage.generateHash(password)
 
-            const newUser: InsertUserDTO = new UserModel(id, username, email, hash, state, country, role, literaryGenre, publicLocation )
+            const newUser: InsertUserDTO = new UserModel(id, username, email, firstName, lastName, birthDate, phoneNumber, hash,state, country, role, literaryGenre, publicInformations )
 
             await this.userDataBase.insertUser(newUser)
 
             const token = this.authenticator.generateToken({ id, role })
 
-            return token
+            return {token, id}
 
         } catch (error: any) {
 
@@ -86,7 +90,7 @@ export class UserBusiness {
 
     }
 
-    public  login = async (user: loginDTO):Promise<string> => {
+    public  login = async (user: loginDTO):Promise<LogedDTO> => {
 
         try {
             const { email, password } = user
@@ -110,7 +114,33 @@ export class UserBusiness {
             
             const token = this.authenticator.generateToken({ id: checkUser[0].id, role: checkUser[0].role })
 
-            return token
+            return {token, id: checkUser[0].id}
+        } catch (error: any) {
+
+            throw new CustomError(error.statusCode || 500, error.sqlMessage || error.message)
+
+        }
+
+    }
+
+    public  getUser = async (input: GetUserDTO):Promise<UserByIdOutput> => {
+
+        try {
+            const { token , id } = input
+
+            if (!token) {
+                throw new UnauthorizedError("Essa requisição requer autorização, verifique se está passando um token válido.")
+            }
+
+            const userInformation = this.authenticator.getTokenData(token)
+
+            if (!userInformation) {
+                throw new UnauthorizedError("Token Inválido.")
+            }
+
+            const userData: UserByIdOutput = await this.userDataBase.selectUserById(id)
+            
+            return userData
         } catch (error: any) {
 
             throw new CustomError(error.statusCode || 500, error.sqlMessage || error.message)
