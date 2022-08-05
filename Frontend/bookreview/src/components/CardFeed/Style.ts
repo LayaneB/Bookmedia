@@ -5,7 +5,7 @@ export const BoxContainer = styled.div`
     background: ${colors.primaryGray};
     width: 50%;
     border-radius: 5px;
-    padding: 2%;
+    padding: 0% 2% 2% 2%;
     color: #282626;
 
     .MuiChip-root{
