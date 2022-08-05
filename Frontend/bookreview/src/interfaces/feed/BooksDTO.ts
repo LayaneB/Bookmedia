@@ -1,5 +1,6 @@
 export interface BooksDTO{
     id: string,
+    userId:string,
     title: string,
     synopsis: string,
     author: string,

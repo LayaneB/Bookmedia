@@ -1,6 +1,7 @@
 export interface CardFeedProps {
     book:{
         id: string,
+        userId:string,
         title: string,
         synopsis: string,
         author: string,
@@ -9,5 +10,6 @@ export interface CardFeedProps {
         userRate: number,
         username:string,
         createdAt: Date
-    }
+    },
+    deleteBook: (id: string) => void
 }

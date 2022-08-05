@@ -21,4 +21,5 @@ export type ThirdStepSignupProps = {
     activeStep: number,
     steps: { label: string; }[]
     literaryArray: string[]
+    loading: boolean
 }
