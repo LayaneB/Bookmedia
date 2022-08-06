@@ -6,5 +6,5 @@ export interface SecondStepProps{
     },
     onChange: () => void,
     activeStep : number,
-    steps: { label: string }[]
+    steps: string[]
 }

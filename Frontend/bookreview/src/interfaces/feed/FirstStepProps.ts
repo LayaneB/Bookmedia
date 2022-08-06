@@ -8,7 +8,7 @@ export type FirstStepProps = {
     },
     onChange: () => void,
     activeStep : number,
-    steps: { label: string }[],
+    steps: string[],
     addBookGenre: () => void,
     removeBookGenre: (item: string) => void | undefined,
     bookArray: string[]

@@ -14,7 +14,7 @@ export type SecondStepSignupProps = {
     },
     onChange: () => void,
     activeStep: number,
-    steps: { label: string; }[]
+    steps: string[]
     addLiteraryGenre: () => void
     removeLiteraryGenre: (item: string) => void | undefined
     literaryArray: string[]

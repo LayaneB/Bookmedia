@@ -8,5 +8,5 @@ export type FirstStepSignupProps = {
     },
     onChange: () => void
     activeStep : number,
-    steps: { label: string; }[]
+    steps: string[]
 }

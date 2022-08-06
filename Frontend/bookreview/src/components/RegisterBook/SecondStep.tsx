@@ -1,6 +1,7 @@
 import { Button, Rating, TextField } from "@mui/material"
 import { Box } from "@mui/system"
 import { SecondStepProps } from "../../interfaces/feed/SecondStepProps"
+import { Container } from "./style"
 
 const SecondStep = (props: SecondStepProps) => {
 
@@ -8,7 +9,7 @@ const SecondStep = (props: SecondStepProps) => {
 
 
     return (
-        <>
+        <Container>
 
             <Box sx={{ display: 'flex', flexDirection:'column', gap: '10px' }}>
                 <TextField
@@ -27,19 +28,6 @@ const SecondStep = (props: SecondStepProps) => {
                     onChange={onChange}
                 />
 
-                {/* <TextField
-                    variant="outlined"
-                    fullWidth
-                    required
-                    id="userRate"
-                    label="Nota"
-                    name="userRate"
-                    autoComplete="userRate"
-                    autoFocus
-                    type='number'
-                    value={form.userRate}
-                    onChange={onChange}
-                /> */}
                 <Rating value={form.userRate} name ="userRate" onChange={onChange} precision={0.5} />
             </Box>
 
@@ -59,7 +47,7 @@ const SecondStep = (props: SecondStepProps) => {
                     {activeStep === steps.length - 1 ? 'Finalizar' : 'Próximo'}
                 </Button>
             </Box>
-        </>
+        </Container>
     )
 }
 

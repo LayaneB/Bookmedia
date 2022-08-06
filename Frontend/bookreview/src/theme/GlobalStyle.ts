@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
+import { colors } from './Colors'
 
 export const GlobalStyle = createGlobalStyle`
     *{
@@ -11,7 +12,7 @@ export const GlobalStyle = createGlobalStyle`
         width: 4px;
     }
     *::-webkit-scrollbar-thumb {
-        background: linear-gradient(90deg, #FF6489 0%, #F9B24E 100%);
+        background: ${colors.primaryOrange};
         opacity:40%;
         border-radius: 2px;
     }

@@ -14,9 +14,32 @@ export const BoxContent = styled.div`
 
         }
     }
+    
+    .MuiInputLabel-root { 
+        color: ${colors.secondaryGray};
+        opacity: 90%;            
+    }
+    .MuiInputLabel-root.Mui-focused{
+        color: ${colors.secondaryOrange};
+    }
 
-    .MuiButton-root .MuiButton-text{
-        color: 'white';
+   .MuiOutlinedInput-root {
+        & > fieldset { 
+            border-color: ${colors.secondaryGray}; 
+            opacity: 80%;
+        }
+    }
+
+    .MuiOutlinedInput-root.Mui-focused {
+        & > fieldset{
+            border-color: ${colors.secondaryOrange};
+        }
+    }
+    .MuiOutlinedInput-root:hover {
+        & > fieldset {
+            border-color: "white";
+            opacity: 90%
+        }
     }
 
     .MuiCircularProgress-circle{

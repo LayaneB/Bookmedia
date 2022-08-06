@@ -8,7 +8,7 @@ export type ThirdStepSignupProps = {
         confirmPassword: string
     },
     secondStepForm: {
-        name:string,
+        firstName:string,
         lastName: string,
         birthDate: Date,
         phoneNumber: string,
@@ -19,7 +19,7 @@ export type ThirdStepSignupProps = {
         literaryGenre: string
     },
     activeStep: number,
-    steps: { label: string; }[]
+    steps: string[]
     literaryArray: string[]
     loading: boolean
 }

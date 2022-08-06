@@ -1,6 +1,7 @@
 import { Button, Chip, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { FirstStepProps } from "../../interfaces/feed/FirstStepProps";
+import { Container } from "./style";
 
 const FirstStep = (props: FirstStepProps) => {
 
@@ -13,6 +14,7 @@ const FirstStep = (props: FirstStepProps) => {
     const renderGenre = bookArray.map((genre: string, index: number) => {
         return (
             <Chip
+                key={index}
                 label={genre}
                 onDelete={handleDelete(genre)}
             />
@@ -20,9 +22,10 @@ const FirstStep = (props: FirstStepProps) => {
     })
 
     return (
-        <>
+        <Container>
             <TextField
                 variant="outlined"
+                size='small'
                 required
                 fullWidth
                 id="title"
@@ -37,6 +40,7 @@ const FirstStep = (props: FirstStepProps) => {
 
             <TextField
                 variant="outlined"
+                size='small'
                 required
                 fullWidth
                 id="author"
@@ -52,7 +56,7 @@ const FirstStep = (props: FirstStepProps) => {
             <Box sx={{ display: 'flex', gap: '10px' }}>
                 <TextField
                     variant="outlined"
-                    required
+                    size='small'
                     fullWidth
                     id="bookGenre"
                     label="Gêneros Literários"
@@ -106,7 +110,7 @@ const FirstStep = (props: FirstStepProps) => {
                     {activeStep === steps.length - 1 ? 'Finalizar' : 'Próximo'}
                 </Button>
             </Box>
-        </>
+        </Container>
     )
 }
 

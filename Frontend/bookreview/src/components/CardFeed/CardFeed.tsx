@@ -15,7 +15,7 @@ import { useParams } from "react-router"
 const CardFeed = (props: CardFeedProps) => {
     const { book, deleteBook } = props
     const navigate = useNavigate()
-    const tokenNow = window.sessionStorage.getItem('token')
+    const tokenNow = window.localStorage.getItem('token')
     const token = tokenNow && JSON.parse(tokenNow)
 
     const renderBookGenre = book.bookGenre.map((genre: string, index: number) => {
@@ -42,8 +42,6 @@ const CardFeed = (props: CardFeedProps) => {
         setAnchorEl(null);
         navigate(`/profile/${book.userId}`)
     };
-
-    console.log(!params.id)
 
     return (
         <BoxContainer>

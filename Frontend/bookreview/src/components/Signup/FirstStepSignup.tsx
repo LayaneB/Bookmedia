@@ -1,6 +1,7 @@
-import { Button, TextField } from "@mui/material";
-import { Box } from "@mui/system";
-import { FirstStepSignupProps } from "../../interfaces/signup/FirstStepSignupProps";
+import { Button, TextField } from "@mui/material"
+import { Box } from "@mui/system"
+import { FirstStepSignupProps } from "../../interfaces/signup/FirstStepSignupProps"
+import { Container } from "./style"
 
 
 const FirstStepSignup = (props: FirstStepSignupProps) => {
@@ -8,9 +9,10 @@ const FirstStepSignup = (props: FirstStepSignupProps) => {
     const { form, onChange, activeStep, steps } = props
 
     return (
-        <>
+        <Container>
             <TextField
                 variant="outlined"
+                size="small"
                 required
                 fullWidth
                 id="username"
@@ -25,6 +27,7 @@ const FirstStepSignup = (props: FirstStepSignupProps) => {
 
             <TextField
                 variant="outlined"
+                size="small"
                 required
                 fullWidth
                 id="email"
@@ -43,6 +46,7 @@ const FirstStepSignup = (props: FirstStepSignupProps) => {
 
             <TextField
                 variant="outlined"
+                size="small"
                 required
                 fullWidth
                 id="password"
@@ -73,7 +77,7 @@ const FirstStepSignup = (props: FirstStepSignupProps) => {
                     {activeStep === steps.length - 1 ? 'Finalizar' : 'Próximo'}
                 </Button>
             </Box>
-        </>
+        </Container>
     )
 }
 

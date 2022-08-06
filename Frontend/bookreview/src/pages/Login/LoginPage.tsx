@@ -9,7 +9,8 @@ import { BoxContent, ButtonLogin } from './style'
 import { useNavigate } from 'react-router'
 import { GlobalContext } from '../../global/GlobalContext'
 import { logIn } from '../../services/requests'
-
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function LoginPage() {
 
@@ -17,24 +18,26 @@ export default function LoginPage() {
   const { token, loading } = states
   const { setToken, setLoading } = setters
 
-  const [form, onChange] = useForm({
+  const [form, onChange, clear] = useForm({
     email: '',
     password: ''
   })
 
   const navigate = useNavigate()
 
+  const notify = (error: string) => toast.error(error)
 
   React.useEffect(() => {
-    const tokenNow = window.sessionStorage.getItem('token')
+    const tokenNow = window.localStorage.getItem('token')
     const tokenN = tokenNow && JSON.parse(tokenNow)
-    if(!tokenN?.token && token.token){window.sessionStorage.setItem('token', JSON.stringify(token))}
+    if (!tokenN?.token && token.token) { window.localStorage.setItem('token', JSON.stringify(token)) }
     (tokenN?.token || token.token) && navigate('/feed')
   }, [token])
 
   const login = (event: any) => {
     event.preventDefault()
-    logIn('user/login', form, setToken, setLoading)
+    logIn('user/login', form, setToken, setLoading, notify)
+    clear()
   }
 
   return (
@@ -42,7 +45,7 @@ export default function LoginPage() {
 
       <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '40px', gap: '20px' }} >
         <Box sx={{ height: '20%' }} component={"img"} src={Logo} alt={'livro aberto'} />
-        <Box sx={{display:'flex',flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
           <Typography variant='h3'>BookMedia</Typography>
           <Typography>Um universo de possibilidades bem aqui</Typography>
         </Box>
@@ -100,6 +103,12 @@ export default function LoginPage() {
         </Box>
 
       </BoxContent>
+      <ToastContainer
+        autoClose={4000}
+        // theme={"dark"}
+        position={"top-center"}
+        hideProgressBar={true}
+      />
     </Box>
   );
 }

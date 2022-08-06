@@ -1,32 +1,30 @@
 import { Box } from "@mui/system"
 import React from "react"
 import CardFeed from "../../components/CardFeed/CardFeed"
-import Header from "../../components/Header/Header"
 import { GlobalContext } from "../../global/GlobalContext"
 import { useProtectedPage } from "../../hooks/useProtectedPage"
 import { BooksDTO } from "../../interfaces/feed/BooksDTO"
 import { deleteBookById, getAllBooks, postBook } from "../../services/requests"
 import { colors } from "../../theme/Colors"
 import AddIcon from '@mui/icons-material/Add'
-import { IconButton, Modal, Step, StepLabel, Stepper, Typography } from "@mui/material"
+import { CircularProgress, IconButton, Modal, Typography } from "@mui/material"
 import { useForm } from "../../hooks/useForm"
 import FirstStep from "../../components/RegisterBook/FirstStep"
 import SecondStep from "../../components/RegisterBook/SecondStep"
 import { PostBookDTO } from "../../interfaces/feed/PostBookDTO"
-
-// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-// import {GoSignOut} from 'react-icons/go'
-
-
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { useNavigate } from "react-router"
+import LogoutIcon from '@mui/icons-material/Logout'
+import AccountBoxIcon from '@mui/icons-material/AccountBox'
 
 export default function FeedPage() {
-    const [books, setBooks] = React.useState<BooksDTO[]>([])
-    const [logout, setLogout] = React.useState(false)
-    const [reload, setReload] = React.useState(false)
+    const navigate = useNavigate()
     const { states, setters } = React.useContext(GlobalContext)
-    const { loading } = states
-    const { setLoading } = setters
-
+    const { loading, reloadData } = states
+    const { setLoading, setReloadData, setToken } = setters
+    const [books, setBooks] = React.useState<BooksDTO[]>([])
+    const [open, setOpen] = React.useState(false);
     const [activeStep, setActiveStep] = React.useState(0)
     const [bookArray, setBookArray] = React.useState<string[]>([])
     const [fisrtStepForm, onChangeFisrtStepForm, clearfields] = useForm({
@@ -35,12 +33,37 @@ export default function FeedPage() {
         bookGenre: '',
         synopsis: ''
     })
-   
+
     const [secondStepForm, onChangeSecondStepForm] = useForm({
         userFeedback: '',
         userRate: 0
     })
-    console.log(secondStepForm.userRate)
+
+    const style = {
+        position: 'absolute' as 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '45%',
+        bgcolor: '#e0dede',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
+
+    useProtectedPage()
+
+    const notify = (error: string) => toast.error(error)
+
+    React.useEffect(() => {
+        getAllBooks('book/feed', setBooks, setLoading, notify)
+    }, [reloadData])
+
+    // Modal
+    const handleOpen = () => setOpen(true)
+    const handleClose = () => setOpen(false)
+
+    // Stepper
     const handleNext = async (event: any) => {
         event.preventDefault();
         if (activeStep === steps.length - 1) {
@@ -53,13 +76,17 @@ export default function FeedPage() {
                 userRate: Number(secondStepForm.userRate)
             }
 
-            await postBook('book', body, setReload, reload, setLoading)
+            await postBook('book', body, setReloadData, reloadData, setLoading, notify)
             setActiveStep(0)
             setBookArray([])
             clearfields()
             handleClose()
         } else {
-            setActiveStep((prevActiveStep) => prevActiveStep + 1)
+            if (bookArray.length > 0) {
+                setActiveStep((prevActiveStep) => prevActiveStep + 1)
+            } else {
+                notify("Você deve adicionar pelo menos um gênero literário.")
+            }
         }
     }
 
@@ -68,7 +95,9 @@ export default function FeedPage() {
     }
 
     const addBookGenre = () => {
-        setBookArray(prevBookGenre => [...prevBookGenre, fisrtStepForm.bookGenre])
+        if (fisrtStepForm.bookGenre) {
+            setBookArray(prevBookGenre => [...prevBookGenre, fisrtStepForm.bookGenre])
+        }
     }
 
     const removeBookGenre = (chipToDelete: string): void | undefined => {
@@ -78,10 +107,7 @@ export default function FeedPage() {
         setBookArray(array)
     }
 
-    const steps = [
-        { label: 'Informações do Livro' },
-        { label: 'Avaliação do usuário' }
-    ]
+    const steps = ['Informações do Livro', 'Avaliação do usuário']
 
     const renderForm = (step: number) => {
         switch (step) {
@@ -106,56 +132,47 @@ export default function FeedPage() {
         }
     }
 
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
-    const style = {
-        position: 'absolute' as 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '45%',
-        bgcolor: '#e0dede',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-    };
-
-    useProtectedPage(logout)
-
-    React.useEffect(() => {
-        getAllBooks('book/feed', setBooks, setLoading)
-    }, [reload])
-
+    // Feed
     const deleteBook = (id: string): void => {
-        deleteBookById(`book/${id}`, setLoading, setReload, reload)
+        deleteBookById(`book/${id}`, setLoading, setReloadData, reloadData, notify)
     }
-
-    // const updateBook = (id: string) => {
-    //     updateRequest(`book/${id}`, setLoading)
-    // }
 
     const renderBooks = books.map((book: BooksDTO) => {
         return <CardFeed book={book} deleteBook={deleteBook} />
     })
 
-    // const logOut = () => {
-    //     window.sessionStorage.removeItem("token")
-    //     setLogout(true)
-    // }
+    // header
+    const logOut = () => {
+        localStorage.removeItem("token")
+        setToken({
+            token: '',
+            id: ''
+        })
+        navigate('/login')
+    }
 
+    const goTo = () => {
+        const tokenNow = window.localStorage.getItem('token')
+        const token = tokenNow && JSON.parse(tokenNow)
+        navigate(`/profile/${token.id}`)
+    }
     return (
-        <Box sx={{ maxWidth: '100vw', minHeight: '100vh', background: '#0f0f0ffc' }}>
-            <Header
-            />
+        <Box sx={{ maxWidth: '100vw', minHeight: '100vh' }}>
+            <Box sx={{ height: '10vh', width: '100%', background: colors.primaryOrange, display: 'flex', alignItems: 'center', justifyContent: 'right', gap: '5%', padding: '2%' }}>
+                <IconButton onClick={goTo} sx={{ background: colors.primaryOrange, color: 'white', "&:hover": { background: colors.secondaryOrange } }}>
+                    <AccountBoxIcon />
+                </IconButton>
+                <IconButton onClick={logOut} sx={{ background: colors.primaryOrange, color: 'white', "&:hover": { background: colors.secondaryOrange } }}>
+                    <LogoutIcon />
+                </IconButton>
+            </Box>
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center', gap: '20px', padding: '20px 0', background: '#0f0f0ffc' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', alignItems: 'center', gap: '20px', padding: '20px 0', color: 'white' }}>
                 {
                     loading ?
-                        <>
-                            carregando ...
-                        </>
+                        <Box sx={{ height: '90vh', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <CircularProgress color="warning" size={'25px'} />
+                        </Box>
                         :
                         <>
                             {renderBooks}
@@ -166,29 +183,12 @@ export default function FeedPage() {
             <Modal
                 open={open}
                 onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                    <Typography variant="h6" component="h2" sx={{ color: colors.secondaryGray }}>
                         Postar Crítica
                     </Typography>
                     <Box sx={{ width: '100%' }}>
-                        <Stepper activeStep={activeStep}>
-                            {steps.map((step, index) => {
-                                const stepProps: { completed?: boolean } = {};
-                                const labelProps: {
-                                    optional?: React.ReactNode;
-                                } = {};
-
-                                return (
-                                    <Step key={step.label} {...stepProps}>
-                                        <StepLabel {...labelProps}>{step.label}</StepLabel>
-                                    </Step>
-                                );
-                            })}
-                        </Stepper>
-
                         <React.Fragment>
                             <Box component={"form"} onSubmit={handleNext} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '10px', width: '100%', mt: 2 }}>
                                 {renderForm(activeStep + 1)}
@@ -200,7 +200,12 @@ export default function FeedPage() {
             <IconButton onClick={handleOpen} sx={{ position: 'fixed', bottom: '5vh', right: '5vw', background: colors.primaryOrange, color: 'white', "&:hover": { background: colors.secondaryOrange } }}>
                 <AddIcon />
             </IconButton>
-        </Box>
 
+            <ToastContainer
+                autoClose={4000}
+                theme={"dark"}
+                position={"top-center"}
+            />
+        </Box>
     )
 }

@@ -1,6 +1,9 @@
 import { Button, Checkbox, Chip, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from "@mui/material"
 import { Box } from "@mui/system"
+import React from "react"
 import { SecondStepSignupProps } from "../../interfaces/signup/SecondStepSignupProps"
+import { colors } from "../../theme/Colors"
+import { Container } from "./style"
 
 const SecondStepSignup = (props: SecondStepSignupProps) => {
 
@@ -17,12 +20,13 @@ const SecondStepSignup = (props: SecondStepSignupProps) => {
             />
         )
     })
-    return (
-        <>
 
+    return (
+        <Container>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
                 <TextField
                     variant="outlined"
+                    size="small"
                     fullWidth
                     required
                     id="firstName"
@@ -36,6 +40,7 @@ const SecondStepSignup = (props: SecondStepSignupProps) => {
 
                 <TextField
                     variant="outlined"
+                    size="small"
                     fullWidth
                     required
                     id="lastName"
@@ -51,6 +56,7 @@ const SecondStepSignup = (props: SecondStepSignupProps) => {
             <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
                 <TextField
                     variant="outlined"
+                    size="small"
                     required
                     fullWidth
                     id="state"
@@ -64,6 +70,7 @@ const SecondStepSignup = (props: SecondStepSignupProps) => {
 
                 <TextField
                     variant="outlined"
+                    size="small"
                     required
                     fullWidth
                     id="country"
@@ -78,6 +85,7 @@ const SecondStepSignup = (props: SecondStepSignupProps) => {
 
             <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '10px' }}>
                 <TextField
+                    size="small"
                     required
                     fullWidth
                     type="date"
@@ -94,6 +102,7 @@ const SecondStepSignup = (props: SecondStepSignupProps) => {
                 />
                 <TextField
                     variant="outlined"
+                    size="small"
                     required
                     fullWidth
                     type="tel"
@@ -104,15 +113,23 @@ const SecondStepSignup = (props: SecondStepSignupProps) => {
                     autoFocus
                     value={form.phoneNumber}
                     onChange={onChange}
+                    inputProps={{ inputMode: 'numeric', pattern: '[0-9]{11}', title: 'Insira os 11 digitos incluindo o DDD' }}
+
                 />
             </Box>
-        
+
             <FormControlLabel
                 control={
                     <Checkbox
+                        size="small"
                         checked={form.publicInformations}
                         onChange={onChange}
                         name="publicInformations"
+                        sx={{
+                            '&.Mui-checked': {
+                                color: colors.secondaryOrange,
+                            }
+                        }}
                     />
                 }
                 label="Informações pessoais públicas"
@@ -127,17 +144,51 @@ const SecondStepSignup = (props: SecondStepSignupProps) => {
                     value={form.role}
                     onChange={onChange}
                     defaultValue={"leitor"}
+
                 >
-                    <FormControlLabel value="leitor" control={<Radio />} label="Leitor" />
-                    <FormControlLabel value="escritor" control={<Radio />} label="Escritor" />
-                    <FormControlLabel value="leitor e escritor" control={<Radio />} label="Ambos" /> 
+                    <FormControlLabel
+                        value="leitor"
+                        control={
+                            <Radio
+                                size="small"
+                                sx={{
+                                    '&.Mui-checked': {
+                                        color: colors.secondaryOrange,
+                                    }
+                                }} />
+                        }
+                        label="Leitor" />
+                    <FormControlLabel
+                        value="escritor"
+                        control={
+                            <Radio
+                                size="small"
+                                sx={{
+                                    '&.Mui-checked': {
+                                        color: colors.secondaryOrange,
+                                    }
+                                }} />
+                        }
+                        label="Escritor" />
+                    <FormControlLabel
+                        value="leitor e escritor"
+                        control={
+                            <Radio
+                                size="small"
+                                sx={{
+                                    '&.Mui-checked': {
+                                        color: colors.secondaryOrange,
+                                    }
+                                }} />
+                        }
+                        label="Ambos" />
                 </RadioGroup>
             </FormControl>
 
-            <Box sx={{ display: 'flex', gap: '10px' }}>
+            <Box sx={{ display: 'flex', gap: '10px', justifyContent: 'center', alignItems: 'center' }}>
                 <TextField
                     variant="outlined"
-                    required
+                    size="small"
                     fullWidth
                     id="literaryGenre"
                     label="Gêneros Literários"
@@ -176,7 +227,7 @@ const SecondStepSignup = (props: SecondStepSignupProps) => {
                     {activeStep === steps.length - 1 ? 'Finalizar' : 'Próximo'}
                 </Button>
             </Box>
-        </>
+        </Container>
     )
 }
 

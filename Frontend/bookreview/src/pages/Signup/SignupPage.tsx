@@ -1,38 +1,37 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
-import Stepper from '@mui/material/Stepper'
-import Step from '@mui/material/Step'
-import StepLabel from '@mui/material/StepLabel'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
+import { useNavigate } from 'react-router'
+import { GlobalContext } from '../../global/GlobalContext'
+import { useForm } from '../../hooks/useForm'
+import { Box, Typography, StepIconProps } from '@mui/material'
 import FirstStepSignup from '../../components/Signup/FirstStepSignup'
 import SecondStepSignup from '../../components/Signup/SecondStepSinup'
-import { useForm } from '../../hooks/useForm'
-import Logo from '../../assets/logo.jpg'
 import ThirdStepSignup from '../../components/Signup/ThirdStepSignup'
+import Logo from '../../assets/logo.jpg'
 import { SignupDTO } from '../../interfaces/signup/SignupDTO'
-import { GlobalContext } from '../../global/GlobalContext'
 import { signup } from '../../services/requests'
-import { useNavigate } from 'react-router'
-
+import LockIcon from '@mui/icons-material/Lock'
+import FolderSharedIcon from '@mui/icons-material/FolderShared'
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt'
+import CustomizedSteppers from '../../components/Stepper/CustomizedSteppers'
+import { ColorlibStepIconRoot } from '../../components/Stepper/style'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function SignupPage() {
 
     const { states, setters } = React.useContext(GlobalContext)
     const { token, loading } = states
     const { setToken, setLoading } = setters
-
-    const navigate = useNavigate()
-
     const [activeStep, setActiveStep] = React.useState(0)
     const [literaryArray, setLiteraryArray] = React.useState<string[]>([])
+    const navigate = useNavigate()
 
     React.useEffect(() => {
-        const tokenNow = window.sessionStorage.getItem('token')
+        const tokenNow = window.localStorage.getItem('token')
         const tokenN = tokenNow && JSON.parse(tokenNow)
-        if(!tokenN?.token && token.token){window.sessionStorage.setItem('token', JSON.stringify(token))}
+        if (!tokenN?.token && token.token) { window.localStorage.setItem('token', JSON.stringify(token)) }
         (tokenN?.token || token.token) && navigate('/feed')
-      }, [token])
+    }, [token])
 
     const [fisrtStepForm, onChangeFisrtStepForm] = useForm({
         username: '',
@@ -52,6 +51,11 @@ export default function SignupPage() {
         literaryGenre: ''
     })
 
+    const notify = (error: string) => toast.error(error)
+
+    // stepper
+    const steps = ['Credenciais', 'Informações Gerais', 'Confirmação']
+
     const handleNext = async (event: any) => {
         event.preventDefault();
         if (activeStep === steps.length - 1) {
@@ -70,11 +74,16 @@ export default function SignupPage() {
                 publicInformations: secondStepForm.publicInformations
             }
 
-            await signup('user/signup', body, setToken, setLoading)
+            await signup('user/signup', body, setToken, setLoading, notify)
             setActiveStep(0)
             setLiteraryArray([])
+
         } else {
-            setActiveStep((prevActiveStep) => prevActiveStep + 1)
+            if (literaryArray.length === 0 && activeStep === 1) {
+                notify("Você deve adicionar pelo menos um gênero literário.")
+            } else {
+                setActiveStep((prevActiveStep) => prevActiveStep + 1)
+            }
         }
     }
 
@@ -93,14 +102,20 @@ export default function SignupPage() {
         setLiteraryArray(array)
     }
 
-    const steps = [
-        { label: 'Credenciais' },
-        { label: 'Informações gerais' },
-        { label: 'Confirmação' }
-    ]
+    const ColorlibStepIcon = (props: StepIconProps) => {
+        const { active, completed, className } = props;
 
-    const handleReset = () => {
-        setActiveStep(0);
+        const icons: { [index: string]: React.ReactElement } = {
+            1: <LockIcon />,
+            2: <FolderSharedIcon />,
+            3: <ThumbUpAltIcon />,
+        };
+
+        return (
+            <ColorlibStepIconRoot ownerState={{ completed, active }} className={className}>
+                {icons[String(props.icon)]}
+            </ColorlibStepIconRoot>
+        );
     }
 
     const renderForm = (step: number) => {
@@ -139,44 +154,29 @@ export default function SignupPage() {
     return (
         <Box sx={{ maxWidth: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', margin: '40px' }} >
+            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', margin: '40px', gap: '20px' }} >
                 <Box sx={{ height: '20%' }} component={"img"} src={Logo} alt={'livro aberto'} />
                 <Typography variant='h3'>BookMedia</Typography>
                 <Typography>Um universo de possibilidades bem aqui</Typography>
             </Box>
-            <Box sx={{ width: '50%' }}>
-                <Stepper activeStep={activeStep}>
-                    {steps.map((step, index) => {
-                        const stepProps: { completed?: boolean } = {};
-                        const labelProps: {
-                            optional?: React.ReactNode;
-                        } = {};
-
-                        return (
-                            <Step key={step.label} {...stepProps}>
-                                <StepLabel {...labelProps}>{step.label}</StepLabel>
-                            </Step>
-                        );
-                    })}
-                </Stepper>
-                {activeStep === steps.length ? (
-                    <React.Fragment>
-                        <Typography sx={{ mt: 2, mb: 1 }}>
-                            All steps completed - you&apos;re finished
-                        </Typography>
-                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                            <Box sx={{ flex: '1 1 auto' }} />
-                            <Button onClick={handleReset}>Reset</Button>
-                        </Box>
-                    </React.Fragment>
-                ) : (
-                    <React.Fragment>
-                        <Box component={"form"} onSubmit={handleNext} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '10px', width: '100%', mt: 2 }}>
-                            {renderForm(activeStep + 1)}
-                        </Box>
-                    </React.Fragment>
-                )}
+            <Box sx={{ width: '40%' }}>
+                <CustomizedSteppers
+                    activeStep={activeStep}
+                    steps={steps}
+                    ColorlibStepIcon={ColorlibStepIcon}
+                />
+                <React.Fragment>
+                    <Box component={"form"} onSubmit={handleNext} sx={{ width: '100%', mt: 2 }}>
+                        {renderForm(activeStep + 1)}
+                    </Box>
+                </React.Fragment>
             </Box>
+            <ToastContainer
+                autoClose={4000}
+                // theme={"dark"}
+                position={"top-center"}
+                hideProgressBar={true}
+            />
         </Box>
     );
 }

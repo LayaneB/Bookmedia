@@ -11,5 +11,5 @@ export interface ProfileDTO {
     state: string
     role: string
     literaryGenres: string[]
-    publicaLocation: number
+    publicInformations: number
 }

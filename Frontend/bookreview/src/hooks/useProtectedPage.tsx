@@ -1,18 +1,14 @@
 import { useContext, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { GlobalContext } from '../global/GlobalContext';
 
 
-export const useProtectedPage = (logout: boolean) => {
+export const useProtectedPage = () => {
     const { setters } = useContext(GlobalContext);
     const { setToken } = setters
-    const navigate = useNavigate()
 
     useEffect(() => {
-        const tokenNow = window.sessionStorage.getItem('token')
+        const tokenNow = window.localStorage.getItem('token')
         tokenNow && setToken(JSON.parse(tokenNow))
-        !tokenNow && navigate('/login')
-
-    }, [navigate, logout])
+    }, [])
 
 }

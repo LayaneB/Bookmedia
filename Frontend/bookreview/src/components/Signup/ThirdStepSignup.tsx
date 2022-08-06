@@ -2,22 +2,24 @@ import { Button, CircularProgress, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import moment from "moment"
 import { ThirdStepSignupProps } from "../../interfaces/signup/ThirdStepSignupProps"
+import { colors } from "../../theme/Colors"
+import { Container } from "./style"
 
 
 const ThirdStepSignup = (props: ThirdStepSignupProps) => {
     const { fisrtStepForm, secondStepForm, literaryArray, activeStep, steps, handleButtonClick, loading } = props
 
     const formatDate =  moment(secondStepForm.birthDate).format('DD/MM/YYYY')
-    const styleBox = { display: 'flex', justifyContent: 'space-between' }
+    const styleBox = { display: 'flex', justifyContent: 'flex-star', alignItems:'center', gap:'5px', color:colors.secondaryGray }
     const styleTypography = { fontWeight: 700 }
 
     return (
-        <>
-            <Box>
+        <Container>
+            <Box sx={{border:'1px solid', borderColor:` ${colors.secondaryOrange}`, padding:'10px'}}>
                 <Box sx={styleBox}> <Typography sx={styleTypography}>Nick:</Typography>{fisrtStepForm.username}</Box>
                 <Box sx={styleBox}> <Typography sx={styleTypography}>E-mail: </Typography>{fisrtStepForm.email}</Box>
                 <Box sx={styleBox}> <Typography sx={styleTypography}>Senha:</Typography>{fisrtStepForm.password}</Box>
-                <Box sx={styleBox}> <Typography sx={styleTypography}>Nome:</Typography>{secondStepForm.name}</Box>
+                <Box sx={styleBox}> <Typography sx={styleTypography}>Nome:</Typography>{secondStepForm.firstName}</Box>
                 <Box sx={styleBox}> <Typography sx={styleTypography}>Sobrenome:</Typography>{secondStepForm.lastName}</Box>
                 <Box sx={styleBox}> <Typography sx={styleTypography}>Data de Nascimento:</Typography>{formatDate}</Box>
                 <Box sx={styleBox}> <Typography sx={styleTypography}>Celular:</Typography>{secondStepForm.phoneNumber}</Box>
@@ -43,7 +45,7 @@ const ThirdStepSignup = (props: ThirdStepSignupProps) => {
                     {loading ? <CircularProgress color="inherit" size={'25px'} /> : (activeStep === steps.length - 1) ? 'Finalizar' : 'Próximo'}
                 </Button>
             </Box>
-        </>
+        </Container>
     )
 }
 
