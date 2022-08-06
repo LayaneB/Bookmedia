@@ -1,4 +1,4 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjcxMGE3ODZmLTRiNjYtNDE4ZS04OGE3LTViMWU3ODc2YzAyYiIsInJvbGUiOiJlc2NyaXRvciIsImlhdCI6MTY1OTY2NDY4NSwiZXhwIjoxNjYwMDk2Njg1fQ.ZOYTU5l1nZFd8mC0pRZGzxwJswSSdCs4rMhYxQ6uHLM
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjcxMGE3ODZmLTRiNjYtNDE4ZS04OGE3LTViMWU3ODc2YzAyYiIsInJvbGUiOiJlc2NyaXRvciIsImlhdCI6MTY1OTY2ODA1OCwiZXhwIjoxNjYwMTAwMDU4fQ.nQsLLVOIEC1e9QdgBV0LChP6kCMEeNymvEJaowvWevA
 
 
 ### GetFeed
@@ -10,12 +10,12 @@ POST http://localhost:3003/user/signup
 Content-Type: application/json
 
 {
-  "username": "Mah",
-  "email": "mah@email.com",
+  "username": "Aninha",
+  "email": "ana_arruda@email.com",
   "password": "12345678",
-  "firstName": "Maria",
-  "lastName": "Cardoso",
-  "birthDate": "1967-03-04",
+  "firstName": "Anna",
+  "lastName": "Arruda",
+  "birthDate": "2001-03-04",
   "phoneNumber": "11983547249",
   "state": "São Paulo",
   "country": "Brasil",
@@ -29,7 +29,7 @@ POST http://localhost:3003/user/login
 Content-Type: application/json
 
 {
-   "email": "layane@email.com", 
+   "email": "mah@email.com", 
    "password": "12345678"
 }
 
@@ -44,13 +44,13 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-   "title": "A Luneta Âmbar",
-   "synopsis":"Em todos os universos, forças se reúnem para tomar um lado na audaciosa rebelião de lorde Asriel contra a Autoridade. Cada soldado tem um papel a desempenhar e um sacrifício a fazer. Feiticeiras, anjos, espiões, assassinos e mentirosos: ninguém sairá ileso. Lyra e Will têm a tarefa mais perigosa de todas. Com a ajuda de Iorek Byrnison, o urso de armadura, e de dois minúsculos espiões galivespianos, eles devem alcançar um mundo de sombras, onde nenhuma alma viva jamais pisou e de onde não há saída. Enquanto a guerra é travada e o Pó desaparece nos céus, o destino dos vivos e dos mortos recai sobre os ombros dos dois. Will e Lyra precisam fazer uma escolha simples, e a mais difícil de todas, com consequências brutais. A luneta âmbar é o último livro da trilogia Fronteiras do Universo, que teve início com A bússola de ouro e A faca sutil. Uma conclusão emocionante, que leva o leitor a novos e fantásticos universos.",
+   "title": "Inferno",
+   "synopsis":"No meio da noite, o renomado simbologista Robert Langdon acorda de um pesadelo, num hospital. Desorientado e com um ferimento à bala na cabeça, ele não tem a menor ideia de como foi parar ali. Ao olhar pela janela e reconhecer a silhueta do Palazzo Vecchio, em Florença, Langdon tem um choque. Ele nem se lembra de ter deixado os Estados Unidos. Na verdade, não tem nenhuma recordação das últimas 36 horas. Quando um novo atentado contra a sua vida acontece dentro do hospital, Langdon se vê obrigado a fugir e, para isso, conta apenas com a ajuda da jovem médica Sienna Brooks. De posse de um macabro objeto que Sienna encontrou no paletó de Langdon, os dois têm que seguir uma série inquietante de códigos criada por uma mente brilhante, obcecada tanto pelo fim do mundo quanto por uma das maiores obras-primas literárias de todos os tempos: A Divina Comédia, de Dante Alighieri. Mais uma vez superando as expectativas, Dan Brown nos leva por uma viagem pela cultura, pela arte e pela literatura italianas – passando por lugares como a Galleria degli Uffizi, o Duomo de Florença e a Basílica de São Marcos. Inferno é uma leitura eletrizante e um convite a pensarmos no papel da ciência para o futuro da humanidade.",
    
-   "author":"Philip Pullman",
-   "bookGenre":["Ficção Científica", "Fantasia", "Romance", "Literatura Infantil"],
-   "userFeedback":"Obra maravilhosa, encerrando muito bem a aventura da pequena Lyra e seus amigos. Uma obra que te leva a reflitir sobre vários aspectos da vida e da morte. Super recomendo!!", 
-   "userRate": 4.5
+   "author":"Dan Brown",
+   "bookGenre":["Ficção Científica", "Suspense", "Mistério"],
+   "userFeedback":"E eu insisti. Quando li 'O Codigo da Vinci', considerei o autor um inovador no gênero. Instigante, cheio de mistérios e informações. Depois li outros do autor, mas meu interesse foi decaindo aos poucos. Confesso que está 'repetição', este 'mais do mesmo' me irrita um pouco, pois a impressão é que todos os livros se parecem. 'Inferno' me fez desistir de Dan Brown. Parece que estou tendo aula de história com aqueles professores chatos que não inovam seu jeito de lecionar e fazem os alunos sentirem vontade de sair correndo da sala de aula.", 
+   "userRate": 2.5
 }
 
 ### Upadete Book

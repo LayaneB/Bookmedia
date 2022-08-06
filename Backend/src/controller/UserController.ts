@@ -31,7 +31,7 @@ export class UserController {
                 literaryGenre,
                 publicInformations
             }
-
+            
             const token = await this.userBusiness.registerUser(inputBusiness)
 
             res.status(200).send({

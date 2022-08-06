@@ -139,8 +139,6 @@ export class BookBusiness {
     public putBook = async (input: PutBookDTO): Promise<void> => {
 
         try {
-            console.log(input)
-
             const { title, synopsis, author, bookGenre, userFeedback, userRate, token, id } = input
 
             if (!token) {

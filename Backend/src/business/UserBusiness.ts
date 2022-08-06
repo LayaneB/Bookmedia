@@ -25,11 +25,11 @@ export class UserBusiness {
     ) { }
 
     public registerUser = async (input: SignupDTO): Promise<LogedDTO> => {
-
+       
         try {
 
             const { username, email, password, firstName, lastName, birthDate, phoneNumber, state, country, role, literaryGenre, publicInformations } = input
-            console.log(input)
+    
             if (!username || !email || !password || !state || !firstName || !lastName || !birthDate || !phoneNumber || !country || !role || !literaryGenre || publicInformations === undefined) {
                 throw new UnprocessableEntityError("Todos os campos são obrigatórios.")
             }

@@ -21,7 +21,7 @@ export class UserDataBase extends BaseDataBase {
                     birth_date: input.getBirthDate(),
                     phone_number:input.getPhoneNumber(),
                     password: input.getPassword(),
-                    state: input.getEmail(),
+                    state: input.getState(),
                     country: input.getCountry(),
                     role: input.getRole(),
                     public_informations: input.getPublicLocation()
