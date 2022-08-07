@@ -1,9 +1,8 @@
-import { Button, Checkbox, Chip, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from "@mui/material"
-import { Box } from "@mui/system"
-import React from "react"
-import { SecondStepSignupProps } from "../../interfaces/signup/SecondStepSignupProps"
-import { colors } from "../../theme/Colors"
-import { Container } from "./style"
+import { Button, Checkbox, Chip, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField } from '@mui/material'
+import { Box } from '@mui/system'
+import { SecondStepSignupProps } from '../../interfaces/signup/SecondStepSignupProps'
+import { colors } from '../../theme/Colors'
+import { Container } from './style'
 
 const SecondStepSignup = (props: SecondStepSignupProps) => {
 
@@ -11,10 +10,12 @@ const SecondStepSignup = (props: SecondStepSignupProps) => {
 
     const handleDelete = (chipToDelete: string) => () => {
         removeLiteraryGenre(chipToDelete)
-    };
+    }
+
     const renderGenre = literaryArray.map((genre: string, index: number) => {
         return (
             <Chip
+                key={index}
                 label={genre}
                 onDelete={handleDelete(genre)}
             />

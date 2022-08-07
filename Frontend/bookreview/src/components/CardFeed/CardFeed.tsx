@@ -1,20 +1,23 @@
-import { Box, Chip, IconButton, Menu, MenuItem, Typography } from "@mui/material"
-import { CardFeedProps } from "../../interfaces/feed/CardFeedProps"
-import moment from "moment"
+import { Box, Chip, IconButton, Menu, MenuItem, Typography } from '@mui/material'
+import { CardFeedProps } from '../../interfaces/feed/CardFeedProps'
+import moment from 'moment'
 import Rating from '@mui/material/Rating'
-import { BoxContainer } from "./Style"
+import { BoxContainer } from './Style'
 import DeleteIcon from '@mui/icons-material/Delete'
-import EditIcon from '@mui/icons-material/Edit'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import PersonIcon from '@mui/icons-material/Person'
-import React from "react"
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useNavigate } from "react-router"
-import { useParams } from "react-router"
+import React from 'react'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import { useNavigate } from 'react-router'
+import { useParams } from 'react-router'
 
 const CardFeed = (props: CardFeedProps) => {
     const { book, deleteBook } = props
     const navigate = useNavigate()
+    const params = useParams()
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+    const formatDate = moment(book.createdAt).format('DD/MM/YYYY')
+    const open = Boolean(anchorEl)
     const tokenNow = window.localStorage.getItem('token')
     const token = tokenNow && JSON.parse(tokenNow)
 
@@ -23,25 +26,24 @@ const CardFeed = (props: CardFeedProps) => {
             <Chip key={index} label={genre} variant="outlined" size="small" />
         )
     })
-    const formatDate = moment(book.createdAt).format('DD/MM/YYYY')
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const params = useParams()
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
+        setAnchorEl(event.currentTarget)
+    }
+
     const handleClose = () => {
-        setAnchorEl(null);
-    };
+        setAnchorEl(null)
+    }
+
     const handleDelete = () => {
-        setAnchorEl(null);
+        setAnchorEl(null)
         deleteBook(book.id)
-    };
+    }
+
     const handleProfile = () => {
-        setAnchorEl(null);
+        setAnchorEl(null)
         navigate(`/profile/${book.userId}`)
-    };
+    }
 
     return (
         <BoxContainer>
@@ -67,7 +69,6 @@ const CardFeed = (props: CardFeedProps) => {
                         book.userId === token.id ?
                             <>
                                 <MenuItem onClick={handleDelete} sx={{ fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '5px' }}> <DeleteIcon sx={{ fontSize: '0.9rem' }} /> Excluir</MenuItem>
-                                <MenuItem onClick={handleClose} sx={{ fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '5px' }}> <EditIcon sx={{ fontSize: '0.9rem' }} /> Editar</MenuItem>
                             </>
                             :
                             <>
@@ -77,7 +78,7 @@ const CardFeed = (props: CardFeedProps) => {
                 </Menu>
             </Box>
             }
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem', paddingTop:'20px' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem', paddingTop: '20px' }}>
                 <Typography sx={{ fontSize: '0.9rem' }}>{book.author}</Typography>
                 <Typography sx={{ fontSize: '0.8rem' }}>{formatDate}</Typography>
             </Box>
@@ -91,8 +92,6 @@ const CardFeed = (props: CardFeedProps) => {
             <Typography sx={{ display: 'flex', alignItems: 'center', fontWeight: 500, textTransform: 'capitalize', gap: '5px', mt: '5px', fontSize: '0.9rem' }}><AccountCircleIcon sx={{ fontSize: '1.2rem' }} /> {book.username}</Typography>
             <Rating value={book.userRate} readOnly sx={{ marginTop: 1 }} precision={0.5} />
             <Typography sx={{ textAlign: 'justify', fontSize: '0.9rem' }}>{book.userFeedback}</Typography>
-
-
         </BoxContainer>
     )
 }

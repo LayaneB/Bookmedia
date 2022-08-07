@@ -15,7 +15,7 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt'
 import CustomizedSteppers from '../../components/Stepper/CustomizedSteppers'
 import { ColorlibStepIconRoot } from '../../components/Stepper/style'
 import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function SignupPage() {
 
@@ -39,7 +39,7 @@ export default function SignupPage() {
         password: ''
     })
 
-    const [secondStepForm, onChangeSecondStepForm] = useForm({
+    const [secondStepForm, onChangeSecondStepForm, cleanAll, cleanOne] = useForm({
         state: '',
         country: '',
         firstName: '',
@@ -57,7 +57,7 @@ export default function SignupPage() {
     const steps = ['Credenciais', 'Informações Gerais', 'Confirmação']
 
     const handleNext = async (event: any) => {
-        event.preventDefault();
+        event.preventDefault()
         if (activeStep === steps.length - 1) {
             const body: SignupDTO = {
                 username: fisrtStepForm.username,
@@ -88,11 +88,14 @@ export default function SignupPage() {
     }
 
     const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+        setActiveStep((prevActiveStep) => prevActiveStep - 1)
     }
 
     const addLiteraryGenre = () => {
-        setLiteraryArray(prevLiteraryGenre => [...prevLiteraryGenre, secondStepForm.literaryGenre])
+        if(secondStepForm.literaryGenre){
+            setLiteraryArray(prevLiteraryGenre => [...prevLiteraryGenre, secondStepForm.literaryGenre])
+            cleanOne('literaryGenre')
+        }
     }
 
     const removeLiteraryGenre = (chipToDelete: string): void | undefined => {
@@ -103,19 +106,19 @@ export default function SignupPage() {
     }
 
     const ColorlibStepIcon = (props: StepIconProps) => {
-        const { active, completed, className } = props;
+        const { active, completed, className } = props
 
         const icons: { [index: string]: React.ReactElement } = {
             1: <LockIcon />,
             2: <FolderSharedIcon />,
             3: <ThumbUpAltIcon />,
-        };
+        }
 
         return (
             <ColorlibStepIconRoot ownerState={{ completed, active }} className={className}>
                 {icons[String(props.icon)]}
             </ColorlibStepIconRoot>
-        );
+        )
     }
 
     const renderForm = (step: number) => {
@@ -173,10 +176,9 @@ export default function SignupPage() {
             </Box>
             <ToastContainer
                 autoClose={4000}
-                // theme={"dark"}
                 position={"top-center"}
                 hideProgressBar={true}
             />
         </Box>
-    );
+    )
 }

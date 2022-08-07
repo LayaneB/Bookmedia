@@ -1,20 +1,19 @@
-import { Box } from "@mui/system"
-import React from "react"
-import CardFeed from "../../components/CardFeed/CardFeed"
-import { GlobalContext } from "../../global/GlobalContext"
-import { useProtectedPage } from "../../hooks/useProtectedPage"
-import { BooksDTO } from "../../interfaces/feed/BooksDTO"
-import { deleteBookById, getAllBooks, postBook } from "../../services/requests"
-import { colors } from "../../theme/Colors"
+import React from 'react'
+import CardFeed from '../../components/CardFeed/CardFeed'
+import { GlobalContext } from '../../global/GlobalContext'
+import { useProtectedPage } from '../../hooks/useProtectedPage'
+import { BooksDTO } from '../../interfaces/feed/BooksDTO'
+import { deleteBookById, getAllBooks, postBook } from '../../services/requests'
+import { colors } from '../../theme/Colors'
 import AddIcon from '@mui/icons-material/Add'
-import { CircularProgress, IconButton, Modal, Typography } from "@mui/material"
-import { useForm } from "../../hooks/useForm"
-import FirstStep from "../../components/RegisterBook/FirstStep"
-import SecondStep from "../../components/RegisterBook/SecondStep"
-import { PostBookDTO } from "../../interfaces/feed/PostBookDTO"
+import { CircularProgress, IconButton, Modal, Typography, Box } from '@mui/material'
+import { useForm } from '../../hooks/useForm'
+import FirstStep from '../../components/RegisterBook/FirstStep'
+import SecondStep from '../../components/RegisterBook/SecondStep'
+import { PostBookDTO } from '../../interfaces/feed/PostBookDTO'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { useNavigate } from "react-router"
+import { useNavigate } from 'react-router'
 import LogoutIcon from '@mui/icons-material/Logout'
 import AccountBoxIcon from '@mui/icons-material/AccountBox'
 
@@ -24,7 +23,7 @@ export default function FeedPage() {
     const { loading, reloadData } = states
     const { setLoading, setReloadData, setToken } = setters
     const [books, setBooks] = React.useState<BooksDTO[]>([])
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(false)
     const [activeStep, setActiveStep] = React.useState(0)
     const [bookArray, setBookArray] = React.useState<string[]>([])
     const [fisrtStepForm, onChangeFisrtStepForm, clearfields] = useForm({
@@ -34,7 +33,7 @@ export default function FeedPage() {
         synopsis: ''
     })
 
-    const [secondStepForm, onChangeSecondStepForm] = useForm({
+    const [secondStepForm, onChangeSecondStepForm, cleanAll, cleanOne] = useForm({
         userFeedback: '',
         userRate: 0
     })
@@ -49,7 +48,7 @@ export default function FeedPage() {
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
-    };
+    }
 
     useProtectedPage()
 
@@ -65,7 +64,7 @@ export default function FeedPage() {
 
     // Stepper
     const handleNext = async (event: any) => {
-        event.preventDefault();
+        event.preventDefault()
         if (activeStep === steps.length - 1) {
             const body: PostBookDTO = {
                 title: fisrtStepForm.title as string,
@@ -91,12 +90,13 @@ export default function FeedPage() {
     }
 
     const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+        setActiveStep((prevActiveStep) => prevActiveStep - 1)
     }
 
     const addBookGenre = () => {
         if (fisrtStepForm.bookGenre) {
             setBookArray(prevBookGenre => [...prevBookGenre, fisrtStepForm.bookGenre])
+            cleanOne('bookGenre')
         }
     }
 

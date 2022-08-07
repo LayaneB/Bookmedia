@@ -1,16 +1,14 @@
-import { Button, Rating, TextField } from "@mui/material"
-import { Box } from "@mui/system"
-import { SecondStepProps } from "../../interfaces/feed/SecondStepProps"
-import { Container } from "./style"
+import { Button, Rating, TextField } from '@mui/material'
+import { Box } from '@mui/system'
+import { SecondStepProps } from '../../interfaces/feed/SecondStepProps'
+import { Container } from './style'
 
 const SecondStep = (props: SecondStepProps) => {
 
     const { handleButtonClick, form, onChange, activeStep, steps, } = props
 
-
     return (
         <Container>
-
             <Box sx={{ display: 'flex', flexDirection:'column', gap: '10px' }}>
                 <TextField
                     variant="outlined"

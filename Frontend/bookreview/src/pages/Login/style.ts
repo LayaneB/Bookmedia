@@ -1,10 +1,10 @@
-import { Button } from "@mui/material"
-import styled from "styled-components"
-import { colors } from "../../theme/Colors";
-
+import { Button } from '@mui/material'
+import styled from 'styled-components'
+import { colors } from '../../theme/Colors'
 
 export const BoxContent = styled.div`
-    width: 80%;
+    width: 40%;
+    margin: auto;width: 80%;
 
     .MuiButton-root{
         color: white;
@@ -45,11 +45,6 @@ export const BoxContent = styled.div`
     .MuiCircularProgress-circle{
         height: '20px';
     }
-
-    @media screen and (min-device-width : 1025px){
-        width: 40%;
-        margin: auto;
-    }
 `
 
 export const ButtonLogin = styled(Button)({
@@ -59,5 +54,5 @@ export const ButtonLogin = styled(Button)({
     letterSpacing: '-0.39px',
     padding: '12px',
     background: colors.primaryOrange
-});
+})
 

@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react'
-import { GlobalContext } from '../global/GlobalContext';
+import { GlobalContext } from '../global/GlobalContext'
 
 
 export const useProtectedPage = () => {

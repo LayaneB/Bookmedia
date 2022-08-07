@@ -1,9 +1,8 @@
-import {BrowserRouter, Routes, Route } from "react-router-dom";
+import {BrowserRouter, Routes, Route } from 'react-router-dom'
 import LoginPage from '../pages/Login/LoginPage'
 import SignupPage from '../pages/Signup/SignupPage'
 import FeedPage from '../pages/Feed/FeedPage'
-import ProfilePage from "../pages/Profile/ProfilePage";
-
+import ProfilePage from '../pages/Profile/ProfilePage'
 
 const Router = () => {
     return (

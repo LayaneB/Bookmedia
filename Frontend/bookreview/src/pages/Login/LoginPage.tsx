@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router'
 import { GlobalContext } from '../../global/GlobalContext'
 import { logIn } from '../../services/requests'
 import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function LoginPage() {
 
@@ -105,12 +105,11 @@ export default function LoginPage() {
       </BoxContent>
       <ToastContainer
         autoClose={4000}
-        // theme={"dark"}
         position={"top-center"}
         hideProgressBar={true}
       />
     </Box>
-  );
+  )
 }
 
 

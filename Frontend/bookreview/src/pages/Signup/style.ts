@@ -44,6 +44,7 @@ export const TextInfo = styled.p`
     font-size: 14px;
     margin-top:25px;
 `
+
 export const TextDecoration = styled.span`
   color:blue;
   cursor:pointer;

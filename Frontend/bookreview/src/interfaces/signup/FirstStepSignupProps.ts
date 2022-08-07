@@ -1,12 +1,11 @@
 export type FirstStepSignupProps = {
-    // children: React.ReactNode; 
     form: {
-        username: string,
-        email: string,
-        password: string,
+        username: string
+        email: string
+        password: string
         confirmPassword: string
-    },
+    }
     onChange: () => void
-    activeStep : number,
+    activeStep : number
     steps: string[]
 }

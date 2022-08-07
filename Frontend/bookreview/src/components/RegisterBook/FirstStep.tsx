@@ -1,7 +1,7 @@
-import { Button, Chip, TextField } from "@mui/material";
-import { Box } from "@mui/system";
-import { FirstStepProps } from "../../interfaces/feed/FirstStepProps";
-import { Container } from "./style";
+import { Button, Chip, TextField } from '@mui/material'
+import { Box } from '@mui/system'
+import { FirstStepProps } from '../../interfaces/feed/FirstStepProps'
+import { Container } from './style'
 
 const FirstStep = (props: FirstStepProps) => {
 
@@ -93,7 +93,6 @@ const FirstStep = (props: FirstStepProps) => {
                 value={form.synopsis}
                 onChange={onChange}
             />
-
 
             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                 <Button

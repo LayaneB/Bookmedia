@@ -1,23 +1,23 @@
-import { Box, Chip, CircularProgress, IconButton, Typography } from "@mui/material";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { colors } from "../../theme/Colors";
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import React from "react";
-import { deleteBookById, getBookByUser, getUser } from "../../services/requests";
-import { useNavigate, useParams } from "react-router";
-import { ProfileDTO } from "../../interfaces/profile/ProfileDTO";
-import { GlobalContext } from "../../global/GlobalContext";
-import moment from "moment";
-import CardFeed from "../../components/CardFeed/CardFeed";
-import { BooksDTO } from "../../interfaces/feed/BooksDTO";
-import { useProtectedPage } from "../../hooks/useProtectedPage";
+import { Box, Chip, CircularProgress, IconButton, Typography } from '@mui/material'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import { colors } from '../../theme/Colors'
+import LocationOnIcon from '@mui/icons-material/LocationOn'
+import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid'
+import AutoStoriesIcon from '@mui/icons-material/AutoStories'
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
+import React from 'react'
+import { deleteBookById, getBookByUser, getUser } from '../../services/requests'
+import { useNavigate, useParams } from 'react-router'
+import { ProfileDTO } from '../../interfaces/profile/ProfileDTO'
+import { GlobalContext } from '../../global/GlobalContext'
+import moment from 'moment'
+import CardFeed from '../../components/CardFeed/CardFeed'
+import { BooksDTO } from '../../interfaces/feed/BooksDTO'
+import { useProtectedPage } from '../../hooks/useProtectedPage'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import HomeIcon from '@mui/icons-material/Home'
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from '@mui/icons-material/Logout'
 
 export default function ProfilePage() {
     const navigate = useNavigate()
@@ -73,7 +73,7 @@ export default function ProfilePage() {
     })
 
     const phoneMask = () => {
-        const x: RegExpMatchArray | null = userData.phoneNumber.replace(/\D/g, '').match(/(\d{2})(\d{5})(\d{4})/);
+        const x: RegExpMatchArray | null = userData.phoneNumber.replace(/\D/g, '').match(/(\d{2})(\d{5})(\d{4})/)
         const result = x && '(' + x[1] + ') ' + x[2] + '-' + x[3]
         return result
     }
@@ -81,16 +81,16 @@ export default function ProfilePage() {
     const logOut = () => {
         localStorage.removeItem("token")
         setToken({
-          token:'',
-          id:''
+            token: '',
+            id: ''
         })
         navigate('/login')
-      }
-    
-      const goTo = () => {
-          navigate('/feed')
+    }
 
-      }
+    const goTo = () => {
+        navigate('/feed')
+
+    }
 
     return (
         <>
@@ -125,9 +125,7 @@ export default function ProfilePage() {
                                 </Box>
                             </>
                             :
-                            <>
-                            </>
-
+                            <></>
                     }
 
                 </Box>
@@ -146,7 +144,6 @@ export default function ProfilePage() {
             </Box>
             <ToastContainer
                 autoClose={4000}
-                // theme={"dark"}
                 position={"top-center"}
                 hideProgressBar={true}
             />

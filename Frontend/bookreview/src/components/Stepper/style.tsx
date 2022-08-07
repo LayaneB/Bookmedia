@@ -1,6 +1,6 @@
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector'
-import styled from 'styled-components';
-import { colors } from '../../theme/Colors';
+import styled from 'styled-components'
+import { colors } from '../../theme/Colors'
 
 export const ColorlibConnector = styled(StepConnector)(() => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -24,7 +24,7 @@ export const ColorlibConnector = styled(StepConnector)(() => ({
         backgroundColor: colors.primaryGray,
         borderRadius: 1,
     },
-}));
+}))
 
 export const ColorlibStepIconRoot = styled('div')<{
     ownerState: { completed?: boolean; active?: boolean };
@@ -47,4 +47,4 @@ export const ColorlibStepIconRoot = styled('div')<{
         backgroundImage:
             `linear-gradient( 136deg, ${colors.secondaryOrange} 0%, ${colors.primaryOrange} 50%,${colors.primaryGray} 100%)`,
     }),
-}));
+}))

@@ -1,8 +1,7 @@
-import { Button, TextField } from "@mui/material"
-import { Box } from "@mui/system"
-import { FirstStepSignupProps } from "../../interfaces/signup/FirstStepSignupProps"
-import { Container } from "./style"
-
+import { Button, TextField } from '@mui/material'
+import { Box } from '@mui/system'
+import { FirstStepSignupProps } from '../../interfaces/signup/FirstStepSignupProps'
+import { Container } from './style'
 
 const FirstStepSignup = (props: FirstStepSignupProps) => {
 

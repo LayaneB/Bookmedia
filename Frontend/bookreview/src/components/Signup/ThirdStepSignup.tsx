@@ -1,9 +1,9 @@
-import { Button, CircularProgress, Typography } from "@mui/material"
-import { Box } from "@mui/system"
-import moment from "moment"
-import { ThirdStepSignupProps } from "../../interfaces/signup/ThirdStepSignupProps"
-import { colors } from "../../theme/Colors"
-import { Container } from "./style"
+import { Button, CircularProgress, Typography } from '@mui/material'
+import { Box } from '@mui/system'
+import moment from 'moment'
+import { ThirdStepSignupProps } from '../../interfaces/signup/ThirdStepSignupProps'
+import { colors } from '../../theme/Colors'
+import { Container } from './style'
 
 
 const ThirdStepSignup = (props: ThirdStepSignupProps) => {

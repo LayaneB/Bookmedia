@@ -1,12 +1,12 @@
-import axios from "axios"
-import { Id } from "react-toastify"
-import { BooksDTO } from "../interfaces/feed/BooksDTO"
-import { PostBookDTO } from "../interfaces/feed/PostBookDTO"
-import { ProfileDTO } from "../interfaces/profile/ProfileDTO"
-import { SignupDTO } from "../interfaces/signup/SignupDTO"
-import { Token } from "../interfaces/Token"
+import axios from 'axios'
+import { Id } from 'react-toastify'
+import { BooksDTO } from '../interfaces/feed/BooksDTO'
+import { PostBookDTO } from '../interfaces/feed/PostBookDTO'
+import { ProfileDTO } from '../interfaces/profile/ProfileDTO'
+import { SignupDTO } from '../interfaces/signup/SignupDTO'
+import { Token } from '../interfaces/Token'
 
-export const baseurl = 'http://localhost:3003/'
+export const baseurl = 'https://bookmedia-app.herokuapp.com/'
 
 // endpoints da entidade user
 export const getUser = async (
