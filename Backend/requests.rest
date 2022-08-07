@@ -72,12 +72,12 @@ GET http://localhost:3003/book/9e6ac33e-1047-48c7-b94b-faac0eedb9a8
 Authorization: {{token}}
 
 
-# {
-#    "title": "Inferno",
-#    "synopsis":"No meio da noite, o renomado simbologista Robert Langdon acorda de um pesadelo, num hospital. Desorientado e com um ferimento à bala na cabeça, ele não tem a menor ideia de como foi parar ali. Ao olhar pela janela e reconhecer a silhueta do Palazzo Vecchio, em Florença, Langdon tem um choque. Ele nem se lembra de ter deixado os Estados Unidos. Na verdade, não tem nenhuma recordação das últimas 36 horas. Quando um novo atentado contra a sua vida acontece dentro do hospital, Langdon se vê obrigado a fugir e, para isso, conta apenas com a ajuda da jovem médica Sienna Brooks. De posse de um macabro objeto que Sienna encontrou no paletó de Langdon, os dois têm que seguir uma série inquietante de códigos criada por uma mente brilhante, obcecada tanto pelo fim do mundo quanto por uma das maiores obras-primas literárias de todos os tempos: A Divina Comédia, de Dante Alighieri. Mais uma vez superando as expectativas, Dan Brown nos leva por uma viagem pela cultura, pela arte e pela literatura italianas – passando por lugares como a Galleria degli Uffizi, o Duomo de Florença e a Basílica de São Marcos. Inferno é uma leitura eletrizante e um convite a pensarmos no papel da ciência para o futuro da humanidade.",
+{
+   "title": "Inferno",
+   "synopsis":"No meio da noite, o renomado simbologista Robert Langdon acorda de um pesadelo, num hospital. Desorientado e com um ferimento à bala na cabeça, ele não tem a menor ideia de como foi parar ali. Ao olhar pela janela e reconhecer a silhueta do Palazzo Vecchio, em Florença, Langdon tem um choque. Ele nem se lembra de ter deixado os Estados Unidos. Na verdade, não tem nenhuma recordação das últimas 36 horas. Quando um novo atentado contra a sua vida acontece dentro do hospital, Langdon se vê obrigado a fugir e, para isso, conta apenas com a ajuda da jovem médica Sienna Brooks. De posse de um macabro objeto que Sienna encontrou no paletó de Langdon, os dois têm que seguir uma série inquietante de códigos criada por uma mente brilhante, obcecada tanto pelo fim do mundo quanto por uma das maiores obras-primas literárias de todos os tempos: A Divina Comédia, de Dante Alighieri. Mais uma vez superando as expectativas, Dan Brown nos leva por uma viagem pela cultura, pela arte e pela literatura italianas – passando por lugares como a Galleria degli Uffizi, o Duomo de Florença e a Basílica de São Marcos. Inferno é uma leitura eletrizante e um convite a pensarmos no papel da ciência para o futuro da humanidade.",
    
-#    "author":"Dan Brown",
-#    "bookGenre":["Ficção Científica", "Suspense", "Mistério"],
-#    "userFeedback":"E eu insisti. Quando li 'O Codigo da Vinci', considerei o autor um inovador no gênero. Instigante, cheio de mistérios e informações. Depois li outros do autor, mas meu interesse foi decaindo aos poucos. Confesso que está 'repetição', este 'mais do mesmo' me irrita um pouco, pois a impressão é que todos os livros se parecem. 'Inferno' me fez desistir de Dan Brown. Parece que estou tendo aula de história com aqueles professores chatos que não inovam seu jeito de lecionar e fazem os alunos sentirem vontade de sair correndo da sala de aula.", 
-#    "userRate": 2.5
-# }
+   "author":"Dan Brown",
+   "bookGenre":["Ficção Científica", "Suspense", "Mistério"],
+   "userFeedback":"E eu insisti. Quando li 'O Codigo da Vinci', considerei o autor um inovador no gênero. Instigante, cheio de mistérios e informações. Depois li outros do autor, mas meu interesse foi decaindo aos poucos. Confesso que está 'repetição', este 'mais do mesmo' me irrita um pouco, pois a impressão é que todos os livros se parecem. 'Inferno' me fez desistir de Dan Brown. Parece que estou tendo aula de história com aqueles professores chatos que não inovam seu jeito de lecionar e fazem os alunos sentirem vontade de sair correndo da sala de aula.", 
+   "userRate": 2.5
+}

@@ -20,7 +20,7 @@ const CardFeed = (props: CardFeedProps) => {
     const open = Boolean(anchorEl)
     const tokenNow = window.localStorage.getItem('token')
     const token = tokenNow && JSON.parse(tokenNow)
-    console.log(book)
+
     const renderBookGenre = book.bookGenre.map((genre: string, index: number) => {
         return (
             <Chip key={index} label={genre} variant="outlined" size="small" />

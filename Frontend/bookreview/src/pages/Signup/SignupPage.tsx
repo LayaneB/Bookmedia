@@ -94,7 +94,7 @@ export default function SignupPage() {
     const addLiteraryGenre = () => {
         if(secondStepForm.literaryGenre){
             setLiteraryArray(prevLiteraryGenre => [...prevLiteraryGenre, secondStepForm.literaryGenre])
-            cleanOne('literaryGenre')
+            cleanOne(secondStepForm,'literaryGenre')
         }
     }
 

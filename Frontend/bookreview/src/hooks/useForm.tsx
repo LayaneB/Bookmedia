@@ -17,7 +17,7 @@ export const useForm = (initialState: any) => {
         setForm(initialState)
     }
 
-    const cleanField = (field: string) => {
+    const cleanField = (form: any, field: string) => {
         setForm({ ...form, [field]: '' })
     }
 

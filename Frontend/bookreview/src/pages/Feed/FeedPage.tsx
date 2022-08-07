@@ -26,14 +26,14 @@ export default function FeedPage() {
     const [open, setOpen] = React.useState(false)
     const [activeStep, setActiveStep] = React.useState(0)
     const [bookArray, setBookArray] = React.useState<string[]>([])
-    const [fisrtStepForm, onChangeFisrtStepForm, clearfields] = useForm({
+    const [fisrtStepForm, onChangeFisrtStepForm, clearfields, cleanOne] = useForm({
         title: '',
         author: '',
         bookGenre: '',
         synopsis: ''
     })
-
-    const [secondStepForm, onChangeSecondStepForm, cleanAll, cleanOne] = useForm({
+console.log(fisrtStepForm)
+    const [secondStepForm, onChangeSecondStepForm] = useForm({
         userFeedback: '',
         userRate: 0
     })
@@ -96,7 +96,7 @@ export default function FeedPage() {
     const addBookGenre = () => {
         if (fisrtStepForm.bookGenre) {
             setBookArray(prevBookGenre => [...prevBookGenre, fisrtStepForm.bookGenre])
-            cleanOne('bookGenre')
+            cleanOne(fisrtStepForm, 'bookGenre')
         }
     }
 
@@ -137,8 +137,8 @@ export default function FeedPage() {
         deleteBookById(`book/${id}`, setLoading, setReloadData, reloadData, notify)
     }
 
-    const renderBooks = books.map((book: BooksDTO) => {
-        return <CardFeed book={book} deleteBook={deleteBook} />
+    const renderBooks = books.map((book: BooksDTO, index: number) => {
+        return <CardFeed key={index} book={book} deleteBook={deleteBook} />
     })
 
     // header
@@ -156,6 +156,7 @@ export default function FeedPage() {
         const token = tokenNow && JSON.parse(tokenNow)
         navigate(`/profile/${token.id}`)
     }
+
     return (
         <Box sx={{ maxWidth: '100vw', minHeight: '100vh' }}>
             <Box sx={{ height: '10vh', width: '100%', background: colors.primaryOrange, display: 'flex', alignItems: 'center', justifyContent: 'right', gap: '5%', padding: '2%' }}>
