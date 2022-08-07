@@ -100,7 +100,7 @@ export class UserBusiness {
             }
 
             const checkUser:CheckRegisteredUserOutput[] = await this.userDataBase.selectUserByEmail(email)
-            
+            console.log(checkUser)
             if (checkUser.length === 0) {
                 throw new ConflictError("Credenciais inválidas. Usuário não cadastrado.")
             }

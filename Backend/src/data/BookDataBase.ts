@@ -1,36 +1,26 @@
+import { db } from "../controller/app"
 import { InternalError } from "../errors/InternalError"
 import { InsertBookDTO } from "../model/DTOs/insertBookDTO"
 import { SelectBooksDTO } from "../model/DTOs/SelectBooksDTO"
 import { UpdateBookDto } from "../model/DTOs/UpdateBookDTO"
+import { UserByIdOutput } from "../model/types/UserByIdOutput"
 import { BaseDataBase } from "./BaseDataBase"
 
 export class BookDataBase extends BaseDataBase {
-    private static mainTableName = "teppa_books"
-    private static auxiliarTableName = "teppa_book_genre"
+    private static tableName = "teppa_books"
 
     public insertBook = async (input: InsertBookDTO): Promise<void> => {
         try {
-            await BaseDataBase.connection(BookDataBase.mainTableName)
-                .insert({
-                    id: input.getId(),
-                    user_id: input.getUserId(),
-                    title: input.getTitle(),
-                    synopsis: input.getSynopsis(),
-                    author: input.getAuthor(),
-                    user_feedback: input.getUserFeedback(),
-                    user_rate: input.getUserRate()
-                })
-
-            const bookGenres: string[] = input.getBookGenre()
-
-            for (const bookGenre of bookGenres) {
-                await BaseDataBase.connection(BookDataBase.auxiliarTableName)
-                    .insert({
-                        user_id: input.getUserId(),
-                        book_id: input.getId(),
-                        book_genre: bookGenre
-                    })
-            }
+            await db.collection(BookDataBase.tableName).add({
+                id: input.getId(),
+                userId: input.getUserId(),
+                title: input.getTitle(),
+                synopsis: input.getSynopsis(),
+                author: input.getAuthor(),
+                userFeedback: input.getUserFeedback(),
+                userRate: input.getUserRate(),
+                bookGenre: input.getBookGenre()
+            })
 
         } catch (error: any) {
 
@@ -42,9 +32,12 @@ export class BookDataBase extends BaseDataBase {
     public selecttBookById = async (id: string): Promise<SelectBooksDTO> => {
         try {
 
-            const book: SelectBooksDTO[] = await BaseDataBase.connection(BookDataBase.mainTableName)
-                .select("id", "user_id as userId", "title", "synopsis", "author", "user_feedback as userFeedback", "user_rate as userRate", "created_at as createdAt")
-                .where({ id })
+            const response = await db.collection(BookDataBase.tableName).where('id', '==', id).get()
+
+            const book: SelectBooksDTO[] = []
+            response.forEach((doc: any) => {
+                book.push(doc.data())
+            })
             return book[0]
 
         } catch (error: any) {
@@ -54,24 +47,24 @@ export class BookDataBase extends BaseDataBase {
         }
     }
 
-    public selecttBookByUser = async (userId: string): Promise<SelectBooksDTO[]> => {
+    public selecttBookByUser = async (id: string): Promise<SelectBooksDTO[]> => {
         try {
-            let userBooks: SelectBooksDTO[] = []
-            const books: SelectBooksDTO[] = await BaseDataBase.connection(BookDataBase.mainTableName)
-                .join('teppa_users', 'teppa_users.id', 'teppa_books.user_id')
-                .select("teppa_books.id as id", "teppa_books.user_id as userId", "title", "synopsis", "author", "user_feedback as userFeedback", "user_rate as userRate", "created_at as createdAt", "username")
-                .where("teppa_books.user_id", userId)
 
-            for (let book of books) {
-                const genres = await BaseDataBase.connection(BookDataBase.mainTableName)
-                    .join('teppa_book_genre', 'teppa_book_genre.book_id', 'teppa_books.id')
-                    .select("book_genre as bookGenre")
-                    .where("teppa_books.id", book.id)
-                const bookGenres = genres.map(genre => genre.bookGenre)
-                const completInformation: SelectBooksDTO = { ...book, bookGenre: bookGenres }
-                userBooks = [...userBooks, completInformation]
-            }
-            return userBooks
+            const responseUser = await db.collection('teppa_users').where('id', '==', id).get()
+            const user: UserByIdOutput[] = []
+            responseUser.forEach((doc: any) => {
+                user.push(doc.data())
+            });
+            console.log(user)
+
+            const responseBook = await db.collection(BookDataBase.tableName).where('userId', '==', id).get()
+
+            const book: SelectBooksDTO[] = []
+            responseBook.forEach((doc: any) => {
+                book.push({ ...doc.data(), username: user[0].username})
+            })
+
+            return book
 
         } catch (error: any) {
 
@@ -82,22 +75,13 @@ export class BookDataBase extends BaseDataBase {
 
     public selecttAllBooks = async (): Promise<SelectBooksDTO[]> => {
         try {
-            let userBooks: SelectBooksDTO[] = []
-            const books: SelectBooksDTO[] = await BaseDataBase.connection(BookDataBase.mainTableName)
-                .join('teppa_users', 'teppa_users.id', 'teppa_books.user_id')
-                .select("teppa_books.id as id", "teppa_books.user_id as userId", "username", "title", "synopsis", "author", "user_feedback as userFeedback", "user_rate as userRate", "created_at as createdAt")
-                .orderBy('teppa_books.created_at')
+            const response = await db.collection(BookDataBase.tableName).get()
 
-            for (let book of books) {
-                const genres = await BaseDataBase.connection(BookDataBase.mainTableName)
-                    .join('teppa_book_genre', 'teppa_book_genre.book_id', 'teppa_books.id')
-                    .select("book_genre as bookGenre")
-                    .where("teppa_books.id", book.id)
-                const bookGenres = genres.map(genre => genre.bookGenre)
-                const completInformation: SelectBooksDTO = { ...book, bookGenre: bookGenres }
-                userBooks = [...userBooks, completInformation]
-            }
-            return userBooks
+            const books: SelectBooksDTO[] = []
+            response.forEach((doc: any) => {
+                books.push(doc.data())
+            })
+            return books
 
         } catch (error: any) {
 
@@ -110,24 +94,9 @@ export class BookDataBase extends BaseDataBase {
 
         try {
 
-            await BaseDataBase.connection(BookDataBase.mainTableName)
-                .where({ id: input.id })
-                .update(input.set)
 
-            await BaseDataBase.connection(BookDataBase.auxiliarTableName)
-                .delete()
-                .where({ book_id: input.id })
+            await db.collection(BookDataBase.tableName).where({ book_id: input.id }).update(input)
 
-            if (input.setBookGenre) {
-                for (const bookGenre of input.setBookGenre) {
-                    await BaseDataBase.connection(BookDataBase.auxiliarTableName)
-                        .insert({
-                            user_id: input.userId,
-                            book_id: input.id,
-                            book_genre: bookGenre.book_genre
-                        })
-                }
-            }
 
         } catch (error: any) {
 
@@ -138,13 +107,8 @@ export class BookDataBase extends BaseDataBase {
 
     public deleteBookById = async (id: string): Promise<void> => {
         try {
-            await BaseDataBase.connection(BookDataBase.auxiliarTableName)
-            .delete()
-            .where({book_id: id})
-            
-            await BaseDataBase.connection(BookDataBase.mainTableName)
-                .delete()
-                .where({ id })
+
+            await db.collection(BookDataBase.tableName).where('id', '==', id).delete()
 
         } catch (error: any) {
 

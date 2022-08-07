@@ -1,4 +1,4 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjcxMGE3ODZmLTRiNjYtNDE4ZS04OGE3LTViMWU3ODc2YzAyYiIsInJvbGUiOiJlc2NyaXRvciIsImlhdCI6MTY1OTY2ODA1OCwiZXhwIjoxNjYwMTAwMDU4fQ.nQsLLVOIEC1e9QdgBV0LChP6kCMEeNymvEJaowvWevA
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUyOWQ3M2Q0LTJhODQtNDg1Ni1hOWUwLTJmMTYxMTExMjU1NCIsInJvbGUiOiJlc2NyaXRvciIsImlhdCI6MTY1OTg1OTU5NSwiZXhwIjoxNjYwMjkxNTk1fQ.9Wh6aUnTTXZpJY19AheHuXGnrntSz3m0wEqZFBO9mSw
 
 
 ### GetFeed
@@ -10,8 +10,8 @@ POST http://localhost:3003/user/signup
 Content-Type: application/json
 
 {
-  "username": "Aninha",
-  "email": "ana_arruda@email.com",
+  "username": "inha",
+  "email": "ana@email.com",
   "password": "12345678",
   "firstName": "Anna",
   "lastName": "Arruda",
@@ -29,14 +29,10 @@ POST http://localhost:3003/user/login
 Content-Type: application/json
 
 {
-   "email": "mah@email.com", 
+   "email": "ana@email.com", 
    "password": "12345678"
 }
 
-
-### GetBooksUser
-GET http://localhost:3003/book
-Authorization: {{token}}
 
 ### AddBook
 POST http://localhost:3003/book
@@ -68,5 +64,9 @@ Authorization: {{token}}
 
 
 ### get user data
-GET http://localhost:3003/user/eb99d012-48bc-4342-bbd1-d50e6686e1ad
+GET http://localhost:3003/user/529d73d4-2a84-4856-a9e0-2f1611112554
+Authorization: {{token}}
+
+### get user book by user id
+GET http://localhost:3003/book/529d73d4-2a84-4856-a9e0-2f1611112554
 Authorization: {{token}}

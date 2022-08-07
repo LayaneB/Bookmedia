@@ -185,30 +185,20 @@ export class BookBusiness {
                 { value: title, name: 'title' },
                 { value: synopsis, name: 'synopsis' },
                 { value: author, name: 'author' },
-                { value: userFeedback, name: 'user_feedback' },
-                { value: userRate, name: 'user_rate' }
+                { value: userFeedback, name: 'userFeedback' },
+                { value: userRate, name: 'userRate' },
+                { value: bookGenre, name: 'bookGenre' },
             ]
 
             let set = {}
-            let setBookGenre: SetBookGenre[] = []
 
             checkSetInfo.forEach((item: any) => {
-                if (item.value && item.value !== undefined) {
+                if (item.value && item.value !== undefined && item.value?.length>0) {
                     set = { ...set, [item.name]: item.value }
                 }
 
             })
-
-            bookGenre !== undefined && bookGenre.length > 0 && bookGenre.forEach((item: string) => {
-                setBookGenre = [...setBookGenre, { book_genre: item }]
-            })
-
-            const inputData: UpdateBookDto = {
-                id,
-                set,
-                setBookGenre,
-                userId: userInformation.id
-            }
+            const inputData: UpdateBookDto = set as UpdateBookDto
 
             await this.bookDataBase.updateBook(inputData)
 

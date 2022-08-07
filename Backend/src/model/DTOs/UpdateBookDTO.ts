@@ -1,14 +1,12 @@
 import { SetBookGenre } from "../types/SetBookGenre"
 
 export interface UpdateBookDto {
-    set?: {
-        title?: string,
-        synopsis?: string,
-        author?: string,
-        user_feedback?: string,
-        user_rate?: number
-    },
-    setBookGenre?: SetBookGenre[]
+    title?: string,
+    synopsis?: string,
+    author?: string,
+    userFeedback?: string,
+    userRate?: number
+    bookGenre?: string[]
     id:string,
     userId: string
 }
