@@ -1,19 +1,24 @@
-import { db } from "../controller/app"
 import { InternalError } from "../errors/InternalError"
 import { InsertBookDTO } from "../model/DTOs/insertBookDTO"
 import { SelectBooksDTO } from "../model/DTOs/SelectBooksDTO"
-import { UpdateBookDto } from "../model/DTOs/UpdateBookDTO"
 import { UserByIdOutput } from "../model/types/UserByIdOutput"
-import { BaseDataBase } from "./BaseDataBase"
+import { db } from "./BaseDataBase"
 
-export class BookDataBase extends BaseDataBase {
+export class BookDataBase {
     private static tableName = "teppa_books"
 
     public insertBook = async (input: InsertBookDTO): Promise<void> => {
         try {
+            const response = await db.collection('teppa_users').where("id", "==", input.getUserId()).get()
+            const user: UserByIdOutput[] = []
+            response.forEach((doc: any) => {
+                user.push(doc.data())
+            })
+
             await db.collection(BookDataBase.tableName).add({
                 id: input.getId(),
                 userId: input.getUserId(),
+                username: user[0].username,
                 title: input.getTitle(),
                 synopsis: input.getSynopsis(),
                 author: input.getAuthor(),
@@ -55,16 +60,15 @@ export class BookDataBase extends BaseDataBase {
             responseUser.forEach((doc: any) => {
                 user.push(doc.data())
             });
-            console.log(user)
 
             const responseBook = await db.collection(BookDataBase.tableName).where('userId', '==', id).get()
 
-            const book: SelectBooksDTO[] = []
+            const books: SelectBooksDTO[] = []
             responseBook.forEach((doc: any) => {
-                book.push({ ...doc.data(), username: user[0].username})
+                books.push({ ...doc.data(), username: user[0].username })
             })
 
-            return book
+            return books
 
         } catch (error: any) {
 
@@ -90,25 +94,14 @@ export class BookDataBase extends BaseDataBase {
         }
     }
 
-    public updateBook = async (input: UpdateBookDto): Promise<void> => {
-
-        try {
-
-
-            await db.collection(BookDataBase.tableName).where({ book_id: input.id }).update(input)
-
-
-        } catch (error: any) {
-
-            throw new InternalError(error.sqlMessage || error.message)
-
-        }
-    }
-
     public deleteBookById = async (id: string): Promise<void> => {
         try {
 
-            await db.collection(BookDataBase.tableName).where('id', '==', id).delete()
+            await db.collection(BookDataBase.tableName).where('id', '==', id).get().then((querySnapshot:any)=> {
+                querySnapshot.forEach((doc: any) => {
+                    doc.ref.delete();
+                  });
+            })
 
         } catch (error: any) {
 

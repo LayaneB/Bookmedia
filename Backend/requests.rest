@@ -1,4 +1,4 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUyOWQ3M2Q0LTJhODQtNDg1Ni1hOWUwLTJmMTYxMTExMjU1NCIsInJvbGUiOiJlc2NyaXRvciIsImlhdCI6MTY1OTg1OTU5NSwiZXhwIjoxNjYwMjkxNTk1fQ.9Wh6aUnTTXZpJY19AheHuXGnrntSz3m0wEqZFBO9mSw
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjllNmFjMzNlLTEwNDctNDhjNy1iOTRiLWZhYWMwZWVkYjlhOCIsInJvbGUiOiJsZWl0b3IiLCJpYXQiOjE2NTk5MDYxMjYsImV4cCI6MTY2MDMzODEyNn0.bniGMRM74NUKWsHsd0buXe7ktR30Y7Et6SaOFtfV5Os
 
 
 ### GetFeed
@@ -10,17 +10,17 @@ POST http://localhost:3003/user/signup
 Content-Type: application/json
 
 {
-  "username": "inha",
-  "email": "ana@email.com",
+  "username": "Mah",
+  "email": "maria01@email.com",
   "password": "12345678",
-  "firstName": "Anna",
+  "firstName": "Maria",
   "lastName": "Arruda",
-  "birthDate": "2001-03-04",
-  "phoneNumber": "11983547249",
-  "state": "São Paulo",
+  "birthDate": "2002-11-08",
+  "phoneNumber": "85983654231",
+  "state": "Ceará",
   "country": "Brasil",
-  "role": "escritor",
-  "literaryGenre": [ "Terror", "Suspense", "Adulto" ],
+  "role": "leitor",
+  "literaryGenre": [ "romance", "policial", "terror", "suspense" ],
   "publicInformations": true
 }
 
@@ -29,7 +29,7 @@ POST http://localhost:3003/user/login
 Content-Type: application/json
 
 {
-   "email": "ana@email.com", 
+   "email": "lay@email.com", 
    "password": "12345678"
 }
 
@@ -40,7 +40,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-   "title": "Inferno",
+   "title": "TETSTE",
    "synopsis":"No meio da noite, o renomado simbologista Robert Langdon acorda de um pesadelo, num hospital. Desorientado e com um ferimento à bala na cabeça, ele não tem a menor ideia de como foi parar ali. Ao olhar pela janela e reconhecer a silhueta do Palazzo Vecchio, em Florença, Langdon tem um choque. Ele nem se lembra de ter deixado os Estados Unidos. Na verdade, não tem nenhuma recordação das últimas 36 horas. Quando um novo atentado contra a sua vida acontece dentro do hospital, Langdon se vê obrigado a fugir e, para isso, conta apenas com a ajuda da jovem médica Sienna Brooks. De posse de um macabro objeto que Sienna encontrou no paletó de Langdon, os dois têm que seguir uma série inquietante de códigos criada por uma mente brilhante, obcecada tanto pelo fim do mundo quanto por uma das maiores obras-primas literárias de todos os tempos: A Divina Comédia, de Dante Alighieri. Mais uma vez superando as expectativas, Dan Brown nos leva por uma viagem pela cultura, pela arte e pela literatura italianas – passando por lugares como a Galleria degli Uffizi, o Duomo de Florença e a Basílica de São Marcos. Inferno é uma leitura eletrizante e um convite a pensarmos no papel da ciência para o futuro da humanidade.",
    
    "author":"Dan Brown",
@@ -50,7 +50,7 @@ Authorization: {{token}}
 }
 
 ### Upadete Book
-PUT http://localhost:3003/book/4216fff9-a7ba-45c4-a572-f5a0f9b475ea
+PUT http://localhost:3003/book/9e6ac33e-1047-48c7-b94b-faac0eedb9a8
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -59,14 +59,25 @@ Authorization: {{token}}
 }
 
 ###
-DELETE http://localhost:3003/book/663151cc-ee26-49bb-a2ad-30e93341c635
+DELETE http://localhost:3003/book/76345125-78ad-41bb-be2d-9454a6f0a9fd
 Authorization: {{token}}
 
 
 ### get user data
-GET http://localhost:3003/user/529d73d4-2a84-4856-a9e0-2f1611112554
+GET https://bookmedia-app.herokuapp.com/user/9e6ac33e-1047-48c7-b94b-faac0eedb9a8
 Authorization: {{token}}
 
 ### get user book by user id
-GET http://localhost:3003/book/529d73d4-2a84-4856-a9e0-2f1611112554
+GET http://localhost:3003/book/9e6ac33e-1047-48c7-b94b-faac0eedb9a8
 Authorization: {{token}}
+
+
+# {
+#    "title": "Inferno",
+#    "synopsis":"No meio da noite, o renomado simbologista Robert Langdon acorda de um pesadelo, num hospital. Desorientado e com um ferimento à bala na cabeça, ele não tem a menor ideia de como foi parar ali. Ao olhar pela janela e reconhecer a silhueta do Palazzo Vecchio, em Florença, Langdon tem um choque. Ele nem se lembra de ter deixado os Estados Unidos. Na verdade, não tem nenhuma recordação das últimas 36 horas. Quando um novo atentado contra a sua vida acontece dentro do hospital, Langdon se vê obrigado a fugir e, para isso, conta apenas com a ajuda da jovem médica Sienna Brooks. De posse de um macabro objeto que Sienna encontrou no paletó de Langdon, os dois têm que seguir uma série inquietante de códigos criada por uma mente brilhante, obcecada tanto pelo fim do mundo quanto por uma das maiores obras-primas literárias de todos os tempos: A Divina Comédia, de Dante Alighieri. Mais uma vez superando as expectativas, Dan Brown nos leva por uma viagem pela cultura, pela arte e pela literatura italianas – passando por lugares como a Galleria degli Uffizi, o Duomo de Florença e a Basílica de São Marcos. Inferno é uma leitura eletrizante e um convite a pensarmos no papel da ciência para o futuro da humanidade.",
+   
+#    "author":"Dan Brown",
+#    "bookGenre":["Ficção Científica", "Suspense", "Mistério"],
+#    "userFeedback":"E eu insisti. Quando li 'O Codigo da Vinci', considerei o autor um inovador no gênero. Instigante, cheio de mistérios e informações. Depois li outros do autor, mas meu interesse foi decaindo aos poucos. Confesso que está 'repetição', este 'mais do mesmo' me irrita um pouco, pois a impressão é que todos os livros se parecem. 'Inferno' me fez desistir de Dan Brown. Parece que estou tendo aula de história com aqueles professores chatos que não inovam seu jeito de lecionar e fazem os alunos sentirem vontade de sair correndo da sala de aula.", 
+#    "userRate": 2.5
+# }

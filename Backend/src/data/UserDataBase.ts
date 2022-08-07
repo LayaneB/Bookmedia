@@ -1,13 +1,13 @@
-import { db } from "../controller/app";
+
 import { InternalError } from "../errors/InternalError";
 import { InsertUserDTO } from "../model/DTOs/InsertUserDTO";
 import { CheckRegisteredUserOutput } from "../model/types/CheckRegisteredUserOutput";
 import { UserByIdOutput } from "../model/types/UserByIdOutput";
-import { BaseDataBase } from "./BaseDataBase";
+import { db } from "./BaseDataBase";
 
 
-export class UserDataBase extends BaseDataBase{
-    private static tableName = "teppa_books"
+export class UserDataBase {
+    private static tableName = "teppa_users"
 
     public insertUser = async (input: InsertUserDTO): Promise<void> => {
         try {

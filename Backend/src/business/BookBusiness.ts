@@ -1,4 +1,3 @@
-import { BookDataBase } from "../data/BookDataBase"
 import { CustomError } from "../errors/CustomError"
 import { UnauthorizedError } from "../errors/UnauthorizedError"
 import { UnprocessableEntityError } from "../errors/UnprocessableEntityError"
@@ -6,15 +5,12 @@ import { BookModel } from "../model/BookModel"
 import { SelectBooksDTO } from "../model/DTOs/SelectBooksDTO"
 import { InsertBookDTO } from "../model/DTOs/insertBookDTO"
 import { RegisterBookDTO } from "../model/DTOs/RegisterBookDTO"
-import { RegisterBookOutput } from "../model/types/RegisterBookOutput"
 import { Authenticator } from "../services/Authenticator"
 import IdGenerator from "../services/IdGenerator"
 import { GetBooksDTO } from "../model/DTOs/GetBooksDTO"
 import { NotFoundError } from "../errors/NotFoundError"
-import { UpdateBookDto } from "../model/DTOs/UpdateBookDTO"
-import { SetBookGenre } from "../model/types/SetBookGenre"
-import { PutBookDTO } from "../model/DTOs/PutBookDTO"
 import { DeleteBookDTO } from "../model/DTOs/DeleteBookDTO"
+import { BookDataBase } from "../data/BookDataBase"
 
 export class BookBusiness {
     constructor(
@@ -23,7 +19,7 @@ export class BookBusiness {
         private authenticator: Authenticator
     ) { }
 
-    public postBook = async (input: RegisterBookDTO): Promise<RegisterBookOutput> => {
+    public postBook = async (input: RegisterBookDTO): Promise<void> => {
 
         try {
 
@@ -63,18 +59,6 @@ export class BookBusiness {
             const newBook: InsertBookDTO = new BookModel(id, userInformation.id, title, synopsis, author, bookGenre, userFeedback, userRate)
 
             await this.bookDataBase.insertBook(newBook)
-
-            return {
-                id,
-                userId: userInformation.id,
-                title,
-                synopsis,
-                author,
-                bookGenre,
-                userFeedback,
-                userRate
-            }
-
 
         } catch (error: any) {
 
@@ -136,81 +120,6 @@ export class BookBusiness {
 
     }
 
-    public putBook = async (input: PutBookDTO): Promise<void> => {
-
-        try {
-            const { title, synopsis, author, bookGenre, userFeedback, userRate, token, id } = input
-
-            if (!token) {
-                throw new UnauthorizedError("Essa requisição requer autorização, verifique se está passando um token válido.")
-            }
-
-            const userInformation = this.authenticator.getTokenData(token)
-
-            if (!userInformation) {
-                throw new UnauthorizedError("Token Inválido.")
-            }
-
-            const book: SelectBooksDTO = await this.bookDataBase.selecttBookById(id)
-
-            if (!book) {
-                throw new NotFoundError("Livro não cadastrado.")
-            }
-
-            if(book.userId !== userInformation.id){
-                throw new UnauthorizedError("Não autorizado.")
-            }
-
-            if (!title && !synopsis && !author && !bookGenre && !userFeedback && !userRate) {
-                throw new UnprocessableEntityError("Pelo menos um dos campos é obrigatório.")
-            }
-
-            if ((title && typeof title !== "string") || (synopsis && typeof synopsis !== "string") || (author && typeof author !== "string") || (userFeedback && typeof userFeedback !== "string")) {
-                throw new UnprocessableEntityError("Os campos 'title', 'synopsis', 'author' e 'userFeedback' devem ser do tipo 'string'.")
-            }
-
-            if (userRate && typeof userRate !== "number") {
-                throw new UnprocessableEntityError("O campo 'userRate' deve ser do tipo 'number'.")
-            }
-
-            if (userRate && userRate < 0 || userRate > 5) {
-                throw new UnprocessableEntityError("O campo 'userRate' deve ser um valor entre 0 e 5.")
-            }
-
-            if (bookGenre && bookGenre.length === 0) {
-                throw new UnprocessableEntityError("Inserir pelo menos um gênero literário.")
-            }
-
-            const checkSetInfo = [
-                { value: title, name: 'title' },
-                { value: synopsis, name: 'synopsis' },
-                { value: author, name: 'author' },
-                { value: userFeedback, name: 'userFeedback' },
-                { value: userRate, name: 'userRate' },
-                { value: bookGenre, name: 'bookGenre' },
-            ]
-
-            let set = {}
-
-            checkSetInfo.forEach((item: any) => {
-                if (item.value && item.value !== undefined && item.value?.length>0) {
-                    set = { ...set, [item.name]: item.value }
-                }
-
-            })
-            const inputData: UpdateBookDto = set as UpdateBookDto
-
-            await this.bookDataBase.updateBook(inputData)
-
-
-        } catch (error: any) {
-
-            throw new CustomError(error.statusCode || 500, error.sqlMessage || error.message)
-
-        }
-
-    }
-
     public deleteBook = async (input: DeleteBookDTO): Promise<void> => {
 
         try {
@@ -232,12 +141,12 @@ export class BookBusiness {
                 throw new NotFoundError("Livro não cadastrado.")
             }
 
-            if(book.userId !== userInformation.id){
+            if (book.userId !== userInformation.id) {
                 throw new UnauthorizedError("Não autorizado.")
             }
 
             await this.bookDataBase.deleteBookById(id)
-           
+
 
         } catch (error: any) {
             throw new CustomError(error.statusCode || 500, error.sqlMessage || error.message)

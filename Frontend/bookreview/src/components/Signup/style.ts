@@ -30,6 +30,7 @@ export const Container = styled.div`
         color: ${colors.secondaryGray};
         opacity: 90%;            
     }
+    
     .MuiInputLabel-root.Mui-focused{
         color: ${colors.secondaryOrange};
     }
@@ -46,6 +47,7 @@ export const Container = styled.div`
             border-color: ${colors.secondaryOrange};
         }
     }
+
     .MuiOutlinedInput-root:hover {
         & > fieldset {
             border-color: "white";

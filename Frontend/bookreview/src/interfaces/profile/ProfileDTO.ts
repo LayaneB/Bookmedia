@@ -10,6 +10,6 @@ export interface ProfileDTO {
     country: string
     state: string
     role: string
-    literaryGenres: string[]
+    literaryGenre: string[]
     publicInformations: number
 }

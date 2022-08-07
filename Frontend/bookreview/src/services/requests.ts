@@ -25,6 +25,7 @@ export const getUser = async (
     }
 
     try {
+        console.log(baseurl+endpoint)
         const response: any = await axios.get(baseurl + endpoint, headers)
         setData(response.data.userData)
     } catch (error: any) {

@@ -38,7 +38,7 @@ export default function ProfilePage() {
         country: '',
         state: '',
         role: '',
-        literaryGenres: [],
+        literaryGenre: [],
         publicInformations: 0
     })
 
@@ -51,7 +51,7 @@ export default function ProfilePage() {
         getBookByUser(`book/${params.id}`, setBooks, setLoading, notify)
     }, [params.id, setLoading])
 
-    const renderGenre = userData.literaryGenres.map((genre: string, index: number) => {
+    const renderGenre = userData?.literaryGenre.map((genre: string, index: number) => {
         return (
             <Chip key={index} label={genre} size="small" sx={{
                 "&.MuiChip-root": {

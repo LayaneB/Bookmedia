@@ -7,14 +7,6 @@ export const app: Express = express();
 app.use(express.json());
 app.use(cors());
 
-const admin = require("firebase-admin");
-const serviceAccount = require("../../key.json");
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
-
-export const db = admin.firestore()
 
 const server = app.listen(process.env.PORT || 3003, () => {
     if (server) {
