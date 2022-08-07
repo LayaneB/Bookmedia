@@ -38,7 +38,7 @@ Criar uma aplicação com frontend em React e backend em Nodejs+Express. A ideia
 - [Knex](http://knexjs.org/guide/);
 - [UUID](https://www.npmjs.com/package/uuid);
 - [Dotenv](https://www.npmjs.com/package/dotenv);
-- [MySQL](https://dev.mysql.com/doc/);
+- [Firestore](https://firebase.google.com/docs/firestore);
 - [Knex](https://knexjs.org/);
 - [Jest](https://jestjs.io/pt-BR/).
 
