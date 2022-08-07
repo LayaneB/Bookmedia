@@ -8,7 +8,7 @@ Criar uma aplicação com frontend em React e backend em Nodejs+Express. A ideia
 - Acesse o site clicando [aqui](https://bookmedia.surge.sh/).
 
 ## :link: Link Heroku (Backend)
-- Acesse a api clicando [aqui](https://bookmedia.surge.sh/).
+- Acesse a api clicando [aqui](https://bookmedia-app.herokuapp.com/).
 
 ## :link: Link da Documentação
 - Acesse a documentação clicando [aqui](https://documenter.getpostman.com/view/14453564/Uzs42Qf7).
