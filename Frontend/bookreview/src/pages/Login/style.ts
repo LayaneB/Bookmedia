@@ -4,7 +4,7 @@ import { colors } from '../../theme/Colors'
 
 export const BoxContent = styled.div`
     width: 40%;
-    margin: auto;width: 80%;
+    margin: auto;
 
     .MuiButton-root{
         color: white;
